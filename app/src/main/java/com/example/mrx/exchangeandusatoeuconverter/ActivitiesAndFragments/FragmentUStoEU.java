@@ -1,4 +1,4 @@
-package com.example.mrx.exchangeandusatoeuconverter;
+package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.mrx.exchangeandusatoeuconverter.R;
 
 /**
  * Created by mrx on 2018-07-15.

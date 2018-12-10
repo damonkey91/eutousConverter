@@ -43,12 +43,12 @@ public class ExchangeRequester extends AsyncTask<String, Void, ArrayList<ArrayLi
     }
 */
 
-    ExchangeRequester(ExchangeRequesterInterface callingClass) {
+    public ExchangeRequester(ExchangeRequesterInterface callingClass) {
         this.callingClass = callingClass;
     }
 
     @Override
-    protected ArrayList<ArrayList<String>> doInBackground(String... strings) {
+    public ArrayList<ArrayList<String>> doInBackground(String... strings) {
 
         String response = getJson(strings);
         ArrayList<ArrayList<String>> list = convertJson(response, strings);
@@ -57,7 +57,7 @@ public class ExchangeRequester extends AsyncTask<String, Void, ArrayList<ArrayLi
     }
 
     @Override
-    protected void onPostExecute(ArrayList<ArrayList<String>> list) {
+    public void onPostExecute(ArrayList<ArrayList<String>> list) {
         super.onPostExecute(list);
 
         if (list != null){

@@ -1,4 +1,4 @@
-package com.example.mrx.exchangeandusatoeuconverter;
+package com.example.mrx.exchangeandusatoeuconverter.Adapters;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,4 +1,4 @@
-package com.example.mrx.exchangeandusatoeuconverter;
+package com.example.mrx.exchangeandusatoeuconverter.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.mrx.exchangeandusatoeuconverter.R;
 
 import java.util.ArrayList;
 import java.util.List;
