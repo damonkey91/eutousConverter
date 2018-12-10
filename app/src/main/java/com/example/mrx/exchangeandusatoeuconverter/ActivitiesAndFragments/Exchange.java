@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.example.mrx.exchangeandusatoeuconverter.R;
 
@@ -31,7 +32,6 @@ public class Exchange extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     public void onNrButtonPressed(View view){

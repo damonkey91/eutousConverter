@@ -8,9 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
@@ -64,10 +65,9 @@ public class FragmentConverter extends Fragment implements View.OnClickListener,
         //return super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_converter_tab2, container, false);
 
-        /*
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-*/
+
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         currencyNameList = getListFromSharedPreferences();
 
@@ -214,7 +214,7 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
     private void createDynamicView(){
         String textlist[] = new String[]{"1", "2", "333", "4444", "555555", "66666", "77777777777"};
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
-
+        ArrayAdapterSpinner spinnerAdapter = new ArrayAdapterSpinner(getContext(), 0, currencyNameList);
         for (int i = 0; i <= 5; i++){
             int etID = 100 + i;
             int spinnerID = 200 + i;
@@ -222,6 +222,7 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
             RelativeLayout.LayoutParams lpEditText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             SearchableSpinner searchableSpinner = new SearchableSpinner(getContext());
+            searchableSpinner.setAdapter(spinnerAdapter);
             searchableSpinner.setId(spinnerID);
             lpSpinner.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpSpinner.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -229,6 +230,7 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
             lpSpinner.addRule(RelativeLayout.ALIGN_BOTTOM,etID);
 
             EditText editText = new EditText(getContext());
+            //editText.setShowSoftInputOnFocus(false);
             editText.setId(etID);
             lpEditText.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpEditText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -243,6 +245,8 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
 
         }
 
+        InputMethodManager imm =(InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private int getMargin(){
