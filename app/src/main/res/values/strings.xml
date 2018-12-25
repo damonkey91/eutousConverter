@@ -14,4 +14,13 @@
     <string name="zero">0</string>
     <string name="come">,</string>
     <string name="delete">del</string>
+
+    <!-- Units -->
+    <string name="temperatur">Temperatur</string>
+    <string name="length">Längd</string>
+    <string name="weight">Vikt</string>
+    <string name="area">Area</string>
+    <string name="speed">Hastighet</string>
+    <string name="baking">Bakning</string>
+
 </resources>

@@ -5,19 +5,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
-import com.example.mrx.exchangeandusatoeuconverter.Adapters.ListAdapterCustom;
 import com.example.mrx.exchangeandusatoeuconverter.ExchangeRequester;
 import com.example.mrx.exchangeandusatoeuconverter.ExchangeRequesterInterface;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,49 +26,26 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by mrx on 2018-07-15.
  */
 
-public class FragmentConverter extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, ExchangeRequesterInterface {
-
-    private ListAdapterCustom adapterListViewTest;
+public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher, ExchangeRequesterInterface {
 
     private final String LIST_KEY = "exchangeCountryList";
     private View view;
-    //private ListView listView;
     private ArrayList<ArrayList<String>> currencyNameList;
     private ArrayList<ArrayList<String>> currencyValueList;
-    private List<Button> buttons = new ArrayList<>();
-    private List<Integer> buttonIds = Arrays.asList(
-            R.id.buttonNr0,
-            R.id.buttonNr1,
-            R.id.buttonNr2,
-            R.id.buttonNr3,
-            R.id.buttonNr4,
-            R.id.buttonNr5,
-            R.id.buttonNr6,
-            R.id.buttonNr7,
-            R.id.buttonNr8,
-            R.id.buttonNr9,
-            R.id.buttonNrComa,
-            R.id.buttonNrDelete);
 
+    private ArrayList<Cell> cells = new ArrayList<>();
     private EditText focusedEditText;
     private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_converter_tab2, container, false);
-
-        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
         sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
         currencyNameList = getListFromSharedPreferences();
 
@@ -75,103 +53,11 @@ public class FragmentConverter extends Fragment implements View.OnClickListener,
             ExchangeRequester requester = new ExchangeRequester(this);
             requester.execute(requester.ARRAY_STRING_LIST_OF_CURRENCYS);
             currencyNameList = new ArrayList<>();
-        } else {
-            setupListView(view);
-            //setupSpinners(view);
         }
-/*
-        SearchableSpinner spinnerTest = view.findViewById(R.id.searchableSpinnerTest);
-        spinnerTest.setAdapter(new ArrayAdapterSpinner(getContext(), 0, currencyNameList));
-*/
-        //focusedEditText = view.findViewById(R.id.editText1);
 
-        //setupEditText(view);
-        getButtons(view);
         createDynamicView();
 
         return view;
-    }
-/*
-    private void setupEditText(View view){
-         List<Integer> editTextsId = Arrays.asList(
-                R.id.editText1,
-                R.id.editText2,
-                R.id.editText3,
-                R.id.editText4,
-                R.id.editText5);
-        for (Integer id : editTextsId) {
-            view.findViewById(id).setOnFocusChangeListener(this);
-        }
-    }
-    */
-
-    private void getButtons(View view){
-
-        for (Integer id: buttonIds) {
-            Button button = view.findViewById(id);
-            button.setOnClickListener(this);
-            buttons.add(button);
-
-        }
-    }
-
-    private void setupListView(View view){
-        //listView = view.findViewById(R.id.listViewExchange);
-        adapterListViewTest = new ListAdapterCustom(getContext(), currencyNameList, null);
-        //listView.setAdapter(adapterListViewTest);
-    }
-/*
-    private void setupSpinners(View view){
-        List<Integer> spinnerIds = Arrays.asList(R.id.spinner1, R.id.spinner2, R.id.spinner3, R.id.spinner4, R.id.spinner5);
-        ArrayAdapterSpinner adapter = new ArrayAdapterSpinner(getContext(), R.layout.spinner_item_layout, currencyNameList);
-        //new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-SearchableSpinner searchableSpinner = view.findViewById(R.id.searchableSpinner1);
-ArrayAdapterSpinner arrayAdapterSpinner = new ArrayAdapterSpinner(getContext(), R.layout.spinner_item_layout, currencyNameList);
-searchableSpinner.setTitle("Countries");
-
-searchableSpinner.setAdapter(arrayAdapterSpinner);
-        for (Integer id : spinnerIds) {
-            Spinner spinner = view.findViewById(id);
-            spinner.setAdapter(adapter);
-        }
-    }
-*/
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.buttonNr0:
-            case R.id.buttonNr1:
-            case R.id.buttonNr2:
-            case R.id.buttonNr3:
-            case R.id.buttonNr4:
-            case R.id.buttonNr5:
-            case R.id.buttonNr6:
-            case R.id.buttonNr7:
-            case R.id.buttonNr8:
-            case R.id.buttonNr9:
-                Button button = v.findViewById(v.getId());
-                //addchar(button.getText().toString());
-                break;
-            case R.id.buttonNrDelete:
-                break;
-            case R.id.buttonNrComa:
-                break;
-        }
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus){
-            focusedEditText = (EditText) v;
-        }
-    }
-
-    private void addchar(String c){
-        String s = focusedEditText.getText().toString();
-        s = s+c;
-        focusedEditText.setText(s);
     }
 
     @Override
@@ -179,11 +65,6 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
         if (list != null) {
             saveListToSharedPreferences(list);
             currencyNameList = list;
-            setupListView(view);
-            //setupSpinners(view);
-            /*
-            String[] ss = new String[]{"hej", "tjena"};
-            adapter.addAll(ss)*/
         }
     }
 
@@ -230,7 +111,8 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
             lpSpinner.addRule(RelativeLayout.ALIGN_BOTTOM,etID);
 
             EditText editText = new EditText(getContext());
-            //editText.setShowSoftInputOnFocus(false);
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            editText.setOnFocusChangeListener(this);
             editText.setId(etID);
             lpEditText.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpEditText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -242,11 +124,8 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
 
             relativeLayout.addView(searchableSpinner,lpSpinner);
             relativeLayout.addView(editText, lpEditText);
-
+            cells.add(new Cell(editText, searchableSpinner));
         }
-
-        InputMethodManager imm =(InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private int getMargin(){
@@ -254,6 +133,38 @@ searchableSpinner.setAdapter(arrayAdapterSpinner);
         float d = getContext().getResources().getDisplayMetrics().density;
         int margin = (int)(dpValue * d);
         return margin;
+    }
+
+    private double calculateCurrency(){
+        for (Cell cell : cells) {
+
+        }
+        return 0;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        //Todo: När texten ändras ska en beräknare anropas som tar värdet ur den aktiva edittext och räknar om värdet till usd. Därefter berälnas alla andra edit texts.
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            focusedEditText = (EditText) v;
+            focusedEditText.addTextChangedListener(this);
+        } else {
+            focusedEditText.removeTextChangedListener(this);
+        }
     }
 }
 
