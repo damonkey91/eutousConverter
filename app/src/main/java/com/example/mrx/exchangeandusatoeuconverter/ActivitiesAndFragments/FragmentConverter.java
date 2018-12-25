@@ -3,12 +3,9 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +23,9 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by mrx on 2018-07-15.

@@ -1,4 +1,6 @@
 package com.example.mrx.exchangeandusatoeuconverter.ViewModels;
 
-public class ViewModelConverter extends  {
+import androidx.lifecycle.ViewModel;
+
+public class ViewModelConverter extends ViewModel {
 }

@@ -124,5 +124,5 @@ task findConventions << {
 }
 */
 dependencies {
-    compile 'org.jetbrains:annotations-java5:15.0'
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }

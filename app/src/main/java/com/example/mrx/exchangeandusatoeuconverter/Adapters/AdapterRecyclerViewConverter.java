@@ -1,11 +1,12 @@
 package com.example.mrx.exchangeandusatoeuconverter.Adapters;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mrx.exchangeandusatoeuconverter.R;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdapterRecyclerViewConverter extends RecyclerView.Adapter<AdapterRecyclerViewConverter.MyViewHolder> {
 
