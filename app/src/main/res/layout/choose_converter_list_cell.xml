@@ -10,10 +10,11 @@
         android:id="@+id/imageViewSideColor"
         android:layout_width="16dp"
         android:layout_height="0dp"
+        android:background="@android:color/holo_red_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/holo_red_dark" />
+        app:srcCompat="@android:color/transparent" />
 
     <TextView
         android:id="@+id/textViewTitle"

@@ -28,8 +28,6 @@
         android:text="TextView"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/unitTitle"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/unitTitle"
         app:layout_constraintTop_toBottomOf="@+id/unitTitle" />
 
@@ -37,8 +35,8 @@
         android:id="@+id/unitInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
@@ -46,6 +44,6 @@
         android:inputType="numberDecimal"
         app:layout_constraintBottom_toBottomOf="@+id/unitFullName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/unitTitle"
+        app:layout_constraintStart_toEndOf="@+id/unitFullName"
         app:layout_constraintTop_toTopOf="@+id/unitTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
