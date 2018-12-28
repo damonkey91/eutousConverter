@@ -2,7 +2,6 @@ package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.content.Context;
 
-import com.example.mrx.exchangeandusatoeuconverter.Objects.Constants;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Measurment;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Unit;
 import com.example.mrx.exchangeandusatoeuconverter.R;

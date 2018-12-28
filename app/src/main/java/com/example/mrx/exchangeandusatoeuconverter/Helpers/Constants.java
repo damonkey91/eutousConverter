@@ -1,4 +1,4 @@
-package com.example.mrx.exchangeandusatoeuconverter.Objects;
+package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 public class Constants {
 

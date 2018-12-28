@@ -33,6 +33,25 @@ public class Exchange extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1){
+                    Fragment fragment = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(tab.getPosition());
+                    ((FragmentUStoEU) fragment).changeAdapterOrigin();
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     public void onNrButtonPressed(View view){
@@ -65,6 +84,7 @@ public class Exchange extends AppCompatActivity {
             public int getCount() {
                 return fragmentList.size();
             }
+
         };
     }
 

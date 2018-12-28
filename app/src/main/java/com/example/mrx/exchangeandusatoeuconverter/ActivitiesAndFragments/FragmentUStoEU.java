@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewUnit;
+import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackEditTextTextChanged;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackRecyclerAdapter;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelConverter;
@@ -27,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Created by mrx on 2018-07-15.
  */
 
-public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter {
+public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter, ICallbackEditTextTextChanged {
 
     private static final String UNIT_ADAPTER = "unitAdapter";
     private static final String MEASURMENT_ADAPTER = "measurmentAdapter";
@@ -90,9 +91,19 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
                 listView.setAdapter(adapter);
                 break;
             case UNIT_ADAPTER:
-                AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment());
+                AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment(), this);
                 listView.setAdapter(adapterUnit);
                 break;
         }
+    }
+
+    public void changeAdapterOrigin(){
+        changeAdapter(MEASURMENT_ADAPTER);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
+    public void callbackTextChanged(int position, double input) {
+        ((AdapterRecyclerViewUnit)listView.getAdapter()).updateAllEditTexts(viewModel.updateEditTexts(position, input), position);
     }
 }
