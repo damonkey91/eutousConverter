@@ -31,7 +31,6 @@
     <string name="inch">tum</string>
     <string name="kilometer">kilometer</string>
     <string name="mile">mil (us)</string>
-    <string name="mil">mil (eu)</string>
     <string name="yard">yard</string>
 
     <!-- temperature -->
@@ -63,7 +62,7 @@
     <string name="footpersecond">fot per sekund (us)</string>
     <string name="milesperhour">mil i timmen (us)</string>
     <string name="kilometerperhour">kilometer i timmen</string>
-    <string name="Knot">knop</string>
+    <string name="knot">knop</string>
 
     <!-- baking -->
     <!--

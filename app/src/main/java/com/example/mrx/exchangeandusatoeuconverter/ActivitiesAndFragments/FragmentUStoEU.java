@@ -57,5 +57,6 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
         viewModel.setChoosenMeasurment(position);
         AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment());
         listView.setAdapter(adapterUnit);
+
     }
 }
