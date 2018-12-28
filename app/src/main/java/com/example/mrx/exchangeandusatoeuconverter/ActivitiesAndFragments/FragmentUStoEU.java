@@ -3,6 +3,7 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +13,10 @@ import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackRecyclerA
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelConverter;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -25,14 +29,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter {
 
+    private static final String UNIT_ADAPTER = "unitAdapter";
+    private static final String MEASURMENT_ADAPTER = "measurmentAdapter";
+
     private ViewModelConverter viewModel;
     private RecyclerView listView;
     private View view;
+    private ActionBar actionBar;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         viewModel = ViewModelProviders.of(getActivity()).get(ViewModelConverter.class);
         view = inflater.inflate(R.layout.fragment_usa_eu_tab, container, false);
         setupListView();
@@ -55,8 +69,30 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     public void callback(int position) {
         Log.d("Hello", ""+position);
         viewModel.setChoosenMeasurment(position);
-        AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment());
-        listView.setAdapter(adapterUnit);
+        changeAdapter(UNIT_ADAPTER);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                changeAdapter(MEASURMENT_ADAPTER);
+                actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void changeAdapter(String adapterKey){
+        switch (adapterKey){
+            case MEASURMENT_ADAPTER:
+                AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this);
+                listView.setAdapter(adapter);
+                break;
+            case UNIT_ADAPTER:
+                AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment());
+                listView.setAdapter(adapterUnit);
+                break;
+        }
     }
 }

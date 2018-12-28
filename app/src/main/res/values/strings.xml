@@ -34,9 +34,9 @@
     <string name="yard">yard</string>
 
     <!-- temperature -->
-    <string name="celcius"></string>
-    <string name="fahrenheit"></string>
-    <string name="kelvin"></string>
+    <string name="celcius">celcius</string>
+    <string name="fahrenheit">fahrenheit</string>
+    <string name="kelvin">kelvin</string>
 
     <!-- weigth -->
     <string name="gram">gram</string>

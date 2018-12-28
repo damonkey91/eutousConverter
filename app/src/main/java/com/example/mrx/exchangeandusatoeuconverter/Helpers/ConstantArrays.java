@@ -22,7 +22,7 @@ public class ConstantArrays {
         ArrayList<Measurment> array = new ArrayList<>();
         array.add(new Measurment(context.getString(R.string.temperatur), Constants.TEMPERATURE_KEY));
         array.add(new Measurment(context.getString(R.string.area), Constants.AREA_KEY));
-        array.add(new Measurment(context.getString(R.string.baking), Constants.BACKING_KEY));
+       // array.add(new Measurment(context.getString(R.string.baking), Constants.BACKING_KEY));
         array.add(new Measurment(context.getString(R.string.length), Constants.LENGTH_KEY));
         array.add(new Measurment(context.getString(R.string.weight), Constants.WEIGHT_KEY));
         array.add(new Measurment(context.getString(R.string.speed),Constants.SPEED_KEY));
