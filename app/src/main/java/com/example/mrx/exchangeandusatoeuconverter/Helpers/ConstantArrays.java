@@ -56,9 +56,9 @@ public class ConstantArrays {
 
     private ArrayList<Unit> createTemperatureArray() {
         ArrayList<Unit> array = new ArrayList<>();
-        array.add(new Unit(Constants.CELCIUS_UNIT, context.getString(R.string.celcius), Constants.NO_VALUE));
-        array.add(new Unit(Constants.FAHRENHEIT_UNIT, context.getString(R.string.fahrenheit), Constants.NO_VALUE));
-        array.add(new Unit(Constants.KELVIN_UNIT, context.getString(R.string.kelvin), Constants.NO_VALUE));
+        array.add(new Unit(Constants.CELCIUS_UNIT, context.getString(R.string.celcius), Constants.CELCIUS_UNIT_VALUE));
+        array.add(new Unit(Constants.FAHRENHEIT_UNIT, context.getString(R.string.fahrenheit), Constants.FAHRENHEIT_UNIT_VALUE));
+        array.add(new Unit(Constants.KELVIN_UNIT, context.getString(R.string.kelvin), Constants.KELVIN_UNIT_VALUE));
         return array;
     }
 

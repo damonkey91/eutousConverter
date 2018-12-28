@@ -2,6 +2,7 @@ package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Unit;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Converters {
@@ -33,6 +34,23 @@ public class Converters {
     }
 
     private static ArrayList<String> temperatureConverter(ArrayList<Unit> units, int position, double value){
-        return new ArrayList<>();
+        double kelvin = 0;
+        Unit unit = units.get(position);
+        switch (position){
+            case 0:
+                kelvin = unit.getUnitValue() + value;
+                break;
+            case 1:
+                kelvin = (value + 459.67)* (5.0/9.0);
+                break;
+            case 2:
+                kelvin = value;
+                break;
+        }
+        ArrayList<String> array = new ArrayList<>();
+        array.add(""+new DecimalFormat("#.##").format(kelvin - Constants.CELCIUS_UNIT_VALUE));
+        array.add(""+new DecimalFormat("#.##").format(((kelvin * (9.0/5.0)) - 459.67)));
+        array.add(""+new DecimalFormat("#.##").format(kelvin));
+        return array;
     }
 }

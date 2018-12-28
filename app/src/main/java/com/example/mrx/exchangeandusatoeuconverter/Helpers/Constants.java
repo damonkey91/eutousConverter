@@ -59,12 +59,12 @@ public class Constants {
     public static final String FAHRENHEIT_UNIT = "\u00b0F";
     public static final String KELVIN_UNIT = "K";
 
-    /*
+
     //temperature value from kelvin
-    public static final double CELCIUS_UNIT_VALUE = ;
-    public static final double FAHRENHEIT_UNIT_VALUE = ;
-    public static final double KELVIN_UNIT_VALUE = ;
-*/
+    public static final double CELCIUS_UNIT_VALUE = 273.15;
+    public static final double FAHRENHEIT_UNIT_VALUE = -459.67;
+    public static final double KELVIN_UNIT_VALUE = 0;
+
     //weight
     public static final String GRAM_UNIT = "g";
     public static final String KILOGRAM_UNIT ="kg";
