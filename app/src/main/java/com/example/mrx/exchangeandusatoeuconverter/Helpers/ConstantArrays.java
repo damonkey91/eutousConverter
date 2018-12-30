@@ -2,16 +2,16 @@ package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Measurment;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Unit;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import androidx.core.content.ContextCompat;
 
 public class ConstantArrays {
 
@@ -19,6 +19,21 @@ public class ConstantArrays {
 
     public ConstantArrays(Context context){
         this.context = context;
+    }
+
+    public HashMap<String ,Drawable> getIconArray(){
+        HashMap<String ,Drawable> list = new HashMap<>();
+        list.put(Constants.AREA_KEY, ContextCompat.getDrawable(context, R.drawable.ic_area));
+        list.put(Constants.LENGTH_KEY, ContextCompat.getDrawable(context, R.drawable.ic_length));
+        list.put(Constants.TEMPERATURE_KEY, ContextCompat.getDrawable(context, R.drawable.ic_temperature));
+        list.put(Constants.SPEED_KEY, ContextCompat.getDrawable(context, R.drawable.ic_speed));
+        list.put(Constants.WEIGHT_KEY, ContextCompat.getDrawable(context, R.drawable.ic_weight));
+        list.put(Constants.NO_DRAWABLE, ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp));
+
+        //;
+        //ContextCompat.getDrawable(context, R.drawable.ic_length);
+        //ContextCompat.getDrawable(context, R.drawable.ic_length);
+        return list;
     }
 
     public ArrayList<Integer> getColorList(){

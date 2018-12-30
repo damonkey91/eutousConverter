@@ -60,17 +60,13 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     }
 
     private void setupListView() {
-
-        Drawable mDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_length);
-        mDrawable.setColorFilter(new PorterDuffColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN));
-
         listView = view.findViewById(R.id.recycler_view_converter);
         listView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mLayoutManager);
         listView.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), mDrawable);
+        AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), viewModel.getIconList());
         listView.setAdapter(adapter);
 
     }
@@ -96,11 +92,7 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     private void changeAdapter(String adapterKey){
         switch (adapterKey){
             case MEASURMENT_ADAPTER:
-                ContextCompat.getDrawable(getContext(), R.drawable.ic_b1ncacik6a);
-                Drawable mDrawable = getResources().getDrawable(R.drawable.ic_android_black_24dp);
-                mDrawable.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
-
-                AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), mDrawable);
+                AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), viewModel.getIconList());
                 listView.setAdapter(adapter);
                 break;
             case UNIT_ADAPTER:

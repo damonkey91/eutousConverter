@@ -3,6 +3,7 @@ package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 public class Constants {
 
     public static final double NO_VALUE = 0;
+    public static final String NO_DRAWABLE = "android";
 
     //measurments
     public static final String AREA_KEY = "areakey";
