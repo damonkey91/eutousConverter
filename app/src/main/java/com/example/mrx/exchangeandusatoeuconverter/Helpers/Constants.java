@@ -85,13 +85,12 @@ public class Constants {
     public static final String MILESPERHOUR_UNIT = "mph";
     public static final String KILOMETERPERHOUR_UNIT = "km/h";
     public static final String KNOT_UNIT = "kn";
-/*
+
     //speed value from km/h
-    public static final double METERPERSECOND_UNIT_VALUE = ;
-    public static final double FOOTPERSECOND_UNIT_VALUE;
-    public static final double MILESPERHOUR_UNIT_VALUE;
-    public static final double KILOMETERPERHOUR_UNIT_VALUE;
-    public static final double KNOT_UNIT_VALUE = ;
-    */
+    public static final double METERPERSECOND_UNIT_VALUE = 1;
+    public static final double FOOTPERSECOND_UNIT_VALUE = 3.2808399;
+    public static final double MILESPERHOUR_UNIT_VALUE = 2.23693629;
+    public static final double KILOMETERPERHOUR_UNIT_VALUE = 3.6;
+    public static final double KNOT_UNIT_VALUE = 1.943844;
 
 }

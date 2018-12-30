@@ -18,12 +18,14 @@ public class ViewModelConverter extends AndroidViewModel {
     private AllUnits allUnits;
     private ArrayList<Measurment> measurments;
     private Measurment choosenMeasurment;
+    private ArrayList<Integer> colorList;
 
     public ViewModelConverter(@NonNull Application application) {
         super(application);
         ConstantArrays constantArrays = new ConstantArrays(application);
         measurments = constantArrays.getMeasurmentArray();
         allUnits = new AllUnits(application);
+        colorList = constantArrays.getColorList();
     }
 
     public ArrayList<Measurment> getMeasurments() {
@@ -45,5 +47,9 @@ public class ViewModelConverter extends AndroidViewModel {
     public ArrayList<String> updateEditTexts(int position, double input) {
         ArrayList<Unit> units = getUnitsForChoosenMeasurment();
         return Converters.convert(choosenMeasurment.getConstant(), units, position, input);
+    }
+
+    public ArrayList<Integer> getColorList() {
+        return colorList;
     }
 }

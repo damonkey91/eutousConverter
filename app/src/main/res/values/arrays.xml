@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="colorArray">
+        <item>@color/gradient1</item>
+        <item>@color/gradient2</item>
+        <item>@color/gradient3</item>
+        <item>@color/gradient4</item>
+        <item>@color/gradient5</item>
+
+    </integer-array>
+</resources>

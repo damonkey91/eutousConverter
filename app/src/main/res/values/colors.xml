@@ -5,4 +5,23 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorButtons">#FF864A</color>
 
+    <!-- ColorArray -->
+    <color name="gradient1">#FF001F</color>
+    <color name="gradient2">#FF0069</color>
+    <color name="gradient3">#FF00BE</color>
+    <color name="gradient4">#FF00FE</color>
+    <color name="gradient5">#B800FF</color>
+    <color name="gradient6">#6F00FF</color>
+    <color name="gradient7">#1800FF</color>
+    <color name="gradient8">#00A1FF</color>
+    <color name="gradient9">#00FFF6</color>
+    <color name="gradient10">#00FF79</color>
+    <color name="gradient11">#00FF05</color>
+    <color name="gradient12">#C0FF00</color>
+    <color name="gradient13">#FFEE00</color>
+    <color name="gradient14">#FFBC00</color>
+    <color name="gradient15">#FF8900</color>
+    <color name="gradient16">#FF6400</color>
+    <color name="gradient17">#FF2D00</color>
+
 </resources>

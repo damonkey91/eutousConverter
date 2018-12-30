@@ -1,13 +1,17 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Measurment;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Unit;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConstantArrays {
 
@@ -15,6 +19,15 @@ public class ConstantArrays {
 
     public ConstantArrays(Context context){
         this.context = context;
+    }
+
+    public ArrayList<Integer> getColorList(){
+        int[] ints = context.getResources().getIntArray(R.array.colorArray);
+        ArrayList<Integer> colorList = new ArrayList<>();
+        for (int colorValue : ints) {
+            colorList.add(colorValue);
+        }
+        return colorList;
     }
 
     public ArrayList<Measurment> getMeasurmentArray(){
@@ -87,11 +100,11 @@ public class ConstantArrays {
 
     private ArrayList<Unit> createSpeedArray() {
         ArrayList<Unit> array = new ArrayList<>();
-        array.add(new Unit(Constants.METERPERSECOND_UNIT, context.getString(R.string.meterpersecond), Constants.NO_VALUE));
-        array.add(new Unit(Constants.FOOTPERSECOND_UNIT, context.getString(R.string.footpersecond), Constants.NO_VALUE));
-        array.add(new Unit(Constants.MILESPERHOUR_UNIT, context.getString(R.string.milesperhour), Constants.NO_VALUE));
-        array.add(new Unit(Constants.KILOMETERPERHOUR_UNIT, context.getString(R.string.kilometerperhour), Constants.NO_VALUE));
-        array.add(new Unit(Constants.KNOT_UNIT, context.getString(R.string.knot), Constants.NO_VALUE));
+        array.add(new Unit(Constants.METERPERSECOND_UNIT, context.getString(R.string.meterpersecond), Constants.METERPERSECOND_UNIT_VALUE));
+        array.add(new Unit(Constants.FOOTPERSECOND_UNIT, context.getString(R.string.footpersecond), Constants.FOOTPERSECOND_UNIT_VALUE));
+        array.add(new Unit(Constants.MILESPERHOUR_UNIT, context.getString(R.string.milesperhour), Constants.MILESPERHOUR_UNIT_VALUE));
+        array.add(new Unit(Constants.KILOMETERPERHOUR_UNIT, context.getString(R.string.kilometerperhour), Constants.KILOMETERPERHOUR_UNIT_VALUE));
+        array.add(new Unit(Constants.KNOT_UNIT, context.getString(R.string.knot), Constants.KNOT_UNIT_VALUE));
         return array;
     }
 

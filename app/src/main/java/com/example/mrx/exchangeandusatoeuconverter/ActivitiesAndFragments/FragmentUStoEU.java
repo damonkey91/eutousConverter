@@ -1,5 +1,9 @@
 package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -55,13 +60,17 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     }
 
     private void setupListView() {
+
+        Drawable mDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_length);
+        mDrawable.setColorFilter(new PorterDuffColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN));
+
         listView = view.findViewById(R.id.recycler_view_converter);
         listView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mLayoutManager);
         listView.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this);
+        AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), mDrawable);
         listView.setAdapter(adapter);
 
     }
@@ -87,7 +96,11 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     private void changeAdapter(String adapterKey){
         switch (adapterKey){
             case MEASURMENT_ADAPTER:
-                AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this);
+                ContextCompat.getDrawable(getContext(), R.drawable.ic_b1ncacik6a);
+                Drawable mDrawable = getResources().getDrawable(R.drawable.ic_android_black_24dp);
+                mDrawable.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY));
+
+                AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), mDrawable);
                 listView.setAdapter(adapter);
                 break;
             case UNIT_ADAPTER:

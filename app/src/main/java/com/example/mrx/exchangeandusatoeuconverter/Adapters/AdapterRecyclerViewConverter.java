@@ -1,12 +1,14 @@
 package com.example.mrx.exchangeandusatoeuconverter.Adapters;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.ConstantArrays;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackRecyclerAdapter;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Measurment;
 import com.example.mrx.exchangeandusatoeuconverter.R;
@@ -19,10 +21,14 @@ public class AdapterRecyclerViewConverter extends RecyclerView.Adapter<AdapterRe
 
     private ICallbackRecyclerAdapter iCallback;
     private ArrayList<Measurment> measurments;
+    private ArrayList<Integer> colorList;
+    private Drawable mDrawable;
 
-    public AdapterRecyclerViewConverter(ArrayList<Measurment> measurments, ICallbackRecyclerAdapter iCallback){
+    public AdapterRecyclerViewConverter(ArrayList<Measurment> measurments, ICallbackRecyclerAdapter iCallback, ArrayList<Integer> colorList, Drawable mDrawable){
         this.measurments = measurments;
         this.iCallback = iCallback;
+        this.colorList = colorList;
+        this.mDrawable = mDrawable;
     }
 
     @Override
@@ -33,8 +39,9 @@ public class AdapterRecyclerViewConverter extends RecyclerView.Adapter<AdapterRe
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.measurmentTitleTV.setText(measurments.get(position).getName());
-        //holder.measurmentImageIV.setImageDrawable();
-        holder.sideColorIV.setBackgroundColor(Color.BLUE);
+        holder.measurmentTitleTV.setTextColor(colorList.get(position));
+        holder.measurmentImageIV.setImageDrawable(mDrawable);
+        holder.sideColorIV.setBackgroundColor(colorList.get(position));
     }
 
     @Override
