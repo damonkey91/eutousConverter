@@ -5,6 +5,11 @@ public class Constants {
     public static final double NO_VALUE = 0;
     public static final String NO_DRAWABLE = "android";
 
+    //Currency constants
+    public static final String CURRENCY_NAMES_KEY = "currencyCountryListRequest";
+    public static final String CURRENCY_VALUES_KEY = "currencyValuesKey";
+    public static final String TIMESTAMP_KEY = "timeStampKeyCurrencyValues";
+
     //measurments
     public static final String AREA_KEY = "areakey";
     public static final String LENGTH_KEY = "lengthkey";

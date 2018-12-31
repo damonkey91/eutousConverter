@@ -1,7 +1,5 @@
 package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -13,90 +11,46 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
-import com.example.mrx.exchangeandusatoeuconverter.ExchangeRequester;
-import com.example.mrx.exchangeandusatoeuconverter.ExchangeRequesterInterface;
+import com.example.mrx.exchangeandusatoeuconverter.Interfaces.IObserverUpdate;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
 import com.example.mrx.exchangeandusatoeuconverter.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelCurrency;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by mrx on 2018-07-15.
  */
 
-public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher, ExchangeRequesterInterface {
+public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher, IObserverUpdate {
 
-    private final String LIST_KEY = "exchangeCountryList";
     private View view;
-    private ArrayList<ArrayList<String>> currencyNameList;
-    private ArrayList<ArrayList<String>> currencyValueList;
-
+    private ViewModelCurrency viewModel;
     private ArrayList<Cell> cells = new ArrayList<>();
     private EditText focusedEditText;
-    private SharedPreferences sharedPreferences;
+    private ArrayAdapterSpinner spinnerAdapter;
+    private ArrayList<ArrayList<String>> currencyValues;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_converter_tab2, container, false);
-        sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
-        currencyNameList = getListFromSharedPreferences();
-
-        if (currencyNameList == null) {
-            ExchangeRequester requester = new ExchangeRequester(this);
-            requester.execute(requester.ARRAY_STRING_LIST_OF_CURRENCYS);
-            currencyNameList = new ArrayList<>();
-        }
-
+        viewModel = ViewModelProviders.of(getActivity()).get(ViewModelCurrency.class);
         createDynamicView();
-
+        setupObservers();
         return view;
-    }
-
-    @Override
-    public void gotRequestedList(ArrayList<ArrayList<String>> list) {
-        if (list != null) {
-            saveListToSharedPreferences(list);
-            currencyNameList = list;
-        }
-    }
-
-    private ArrayList<ArrayList<String>> getListFromSharedPreferences(){
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(LIST_KEY, null);
-
-        if (json != null) {
-            Type type = new TypeToken<ArrayList<ArrayList<String>>>() {
-            }.getType();
-
-            return gson.fromJson(json, type);
-        }
-
-        return null;
-    }
-
-    private void saveListToSharedPreferences(ArrayList<ArrayList<String>> list){
-        if (list != null) {
-            Gson gson = new Gson();
-            String json = gson.toJson(list);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(LIST_KEY, json);
-            editor.commit();
-        }
     }
 
     private void createDynamicView(){
         String textlist[] = new String[]{"1", "2", "333", "4444", "555555", "66666", "77777777777"};
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
-        ArrayAdapterSpinner spinnerAdapter = new ArrayAdapterSpinner(getContext(), 0, currencyNameList);
+        spinnerAdapter = new ArrayAdapterSpinner(getContext(), 0, new ArrayList<ArrayList<String>>());
         for (int i = 0; i <= 5; i++){
             int etID = 100 + i;
             int spinnerID = 200 + i;
@@ -136,6 +90,21 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
         return margin;
     }
 
+    private void setupObservers() {
+        viewModel.getCurrencyNameList().observe(this, createObserver(spinnerAdapter));
+        viewModel.getCurrencyValueList().observe(this, createObserver(this));
+    }
+
+    private Observer createObserver(final IObserverUpdate target){
+        final Observer<ArrayList<ArrayList<String>>> observer = new Observer<ArrayList<ArrayList<String>>>() {
+            @Override
+            public void onChanged(@Nullable final ArrayList<ArrayList<String>> list) {
+                target.update(list);
+            }
+        };
+        return observer;
+    }
+
     private double calculateCurrency(){
         for (Cell cell : cells) {
 
@@ -167,8 +136,15 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             focusedEditText.removeTextChangedListener(this);
         }
     }
-}
 
+    @Override
+    public void update(ArrayList<ArrayList<String>> list) {
+        currencyValues = list;
+    }
+}
+//Todo: första gången du startar appen så är spinners inte populerad
+//Todo: Försök göra klart den befintliga
+//Todo: gör en egen searchable spinner
 //Todo: spinner list som ser ut som en tableview och går att söka i
 //Todo: customAdapter som kan ta emot ArrayList<ArrayList<String>>
 //Todo:

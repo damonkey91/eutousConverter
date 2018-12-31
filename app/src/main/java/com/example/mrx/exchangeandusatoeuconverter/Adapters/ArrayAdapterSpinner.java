@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.mrx.exchangeandusatoeuconverter.Interfaces.IObserverUpdate;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ import androidx.annotation.Nullable;
  * Created by mrx on 2018-08-06.
  */
 
-public class ArrayAdapterSpinner extends ArrayAdapter<ArrayList<String>> {
+public class ArrayAdapterSpinner extends ArrayAdapter<ArrayList<String>> implements IObserverUpdate {
+
+    private List<ArrayList<String>> list;
 
     public ArrayAdapterSpinner(@NonNull Context context, int resource, @NonNull List<ArrayList<String>> objects) {
         super(context, 0, objects);
@@ -38,6 +41,12 @@ public class ArrayAdapterSpinner extends ArrayAdapter<ArrayList<String>> {
 
         ((TextView)view.findViewById(R.id.spinnerFirstText)).setText(getItem(position).get(0));
         return view;
+    }
+
+    @Override
+    public void update(ArrayList<ArrayList<String>> list) {
+        list = list;
+        this.notifyDataSetChanged();
     }
 /*
     @Override

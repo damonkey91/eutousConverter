@@ -1,11 +1,11 @@
-package com.example.mrx.exchangeandusatoeuconverter;
+package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import static android.webkit.WebViewDatabase.getInstance;
 
-import org.json.JSONArray;
+import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ExchangeRequesterInterface;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.RequestResult;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,49 +19,47 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import javax.net.ssl.HttpsURLConnection;
-
 /**
  * Created by mrx on 2018-07-16.
  */
 
-public class ExchangeRequester extends AsyncTask<String, Void, ArrayList<ArrayList<String>>> {
+public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
     private final String API_KEY = "3423a5771f530cf0ca1c86a7981671c4";
     public final String[] ARRAY_STRING_ALL_CURRENCY_VALUES ={
-            "http://www.apilayer.net/api/live?access_key=3423a5771f530cf0ca1c86a7981671c4&format=1", "quotes"};
+            "http://www.apilayer.net/api/live?access_key=3423a5771f530cf0ca1c86a7981671c4&format=1", "quotes", Constants.CURRENCY_VALUES_KEY};
     public final String[] ARRAY_STRING_LIST_OF_CURRENCYS = {
-            "http://www.apilayer.net/api/list?access_key=3423a5771f530cf0ca1c86a7981671c4", "currencies"};
+            "http://www.apilayer.net/api/list?access_key=3423a5771f530cf0ca1c86a7981671c4", "currencies",  Constants.CURRENCY_NAMES_KEY};
 
     private ExchangeRequesterInterface callingClass;
-/*
-    public void requestCurrencyList() {
-        sendRequest(ARRAY_STRING_LIST_OF_CURRENCYS);
-    }
-
-    public void requestCurrencyValue() {
-        sendRequest(ARRAY_STRING_ALL_CURRENCY_VALUES);
-    }
-*/
 
     public ExchangeRequester(ExchangeRequesterInterface callingClass) {
         this.callingClass = callingClass;
     }
 
-    @Override
-    public ArrayList<ArrayList<String>> doInBackground(String... strings) {
+    public void requestCurrencyNameList() {
+        this.execute(ARRAY_STRING_LIST_OF_CURRENCYS);
+    }
 
-        String response = getJson(strings);
-        ArrayList<ArrayList<String>> list = convertJson(response, strings);
-
-        return list;
+    public void requestCurrencyValueList() {
+        this.execute(ARRAY_STRING_ALL_CURRENCY_VALUES);
     }
 
     @Override
-    public void onPostExecute(ArrayList<ArrayList<String>> list) {
-        super.onPostExecute(list);
+    public RequestResult doInBackground(String... strings) {
 
-        if (list != null){
-            callingClass.gotRequestedList(list);
+        String response = getJson(strings);
+        //Todo: jason converting ska flyttas till classen jsonConverter och den ska ta generisk variabel
+        ArrayList<ArrayList<String>> list = convertJson(response, strings);
+
+        return new RequestResult(strings[2], list);
+    }
+
+    @Override
+    public void onPostExecute(RequestResult resultObject) {
+        super.onPostExecute(resultObject);
+
+        if (resultObject.getList() != null){
+            callingClass.gotRequestedList(resultObject.getList(), resultObject.getReguestType());
         }
     }
 
@@ -93,7 +91,6 @@ public class ExchangeRequester extends AsyncTask<String, Void, ArrayList<ArrayLi
             e.printStackTrace();
         }
         Log.i("Response", response.toString());
-        System.out.print(response);
         return  response;
     }
 

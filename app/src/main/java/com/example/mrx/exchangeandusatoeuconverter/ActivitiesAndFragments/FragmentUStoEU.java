@@ -112,3 +112,10 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
         ((AdapterRecyclerViewUnit)listView.getAdapter()).updateAllEditTexts(viewModel.updateEditTexts(position, input), position);
     }
 }
+
+//TODO: Bakåtknappen på telefonen dödar appen
+//Todo: tangentbordet ska försvinna när man backar o byter sida
+//Todo: edittext ska ha en ny bakgrund drawable
+//Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
+//Todo: toolbar ska ändra titel efter mätenhet
+
