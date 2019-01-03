@@ -7,7 +7,12 @@ import com.example.mrx.exchangeandusatoeuconverter.Helpers.ExchangeRequester;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.JsonConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.SharedPreferenceHelper;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ExchangeRequesterInterface;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.RequestResult;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,31 +25,35 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
     private ExchangeRequester exchangeRequester;
     private SharedPreferenceHelper sharedPreferenceHelper;
     //Dessa två arrays ska vara liveData
-    private MutableLiveData<ArrayList<ArrayList<String>>> currencyNameList;
-    private MutableLiveData<ArrayList<ArrayList<String>>> currencyValueList;
+    private MutableLiveData<ArrayList<CurrencyName>> currencyNameList;
+    private MutableLiveData<CurrencyValues> currencyValueList;
 
     public ViewModelCurrency(@NonNull Application application) {
         super(application);
-        currencyNameList = new MutableLiveData<ArrayList<ArrayList<String>>>();
-        currencyValueList = new MutableLiveData<ArrayList<ArrayList<String>>>();
+        currencyNameList = new MutableLiveData<>();
+        currencyValueList = new MutableLiveData<>();
         exchangeRequester = new ExchangeRequester(this);
         sharedPreferenceHelper = new SharedPreferenceHelper(application);
     }
 
-    public MutableLiveData<ArrayList<ArrayList<String>>> getCurrencyValueList() {
+    public MutableLiveData<CurrencyValues> getCurrencyValueList() {
         String json = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.CURRENCY_VALUES_KEY);
-        if (json != null)
-            currencyValueList.setValue(JsonConverter.<ArrayList<ArrayList<String>>>convertFromJson(json));
+        if (json != null) {
+            Type type = new TypeToken<CurrencyValues>() {}.getType();
+            CurrencyValues list = JsonConverter.<CurrencyValues>convertFromJson(json, type);
+            currencyValueList.setValue(list);
+        }
         requestCurrencyValues();
         return currencyValueList;
     }
 
-    public MutableLiveData<ArrayList<ArrayList<String>>> getCurrencyNameList() {
+    public MutableLiveData<ArrayList<CurrencyName>> getCurrencyNameList() {
         String json = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.CURRENCY_NAMES_KEY);
         if (json == null) {
             requestCurrencyNames();
         }else{
-            currencyNameList.setValue(JsonConverter.<ArrayList<ArrayList<String>>>convertFromJson(json));
+            Type type = new TypeToken<ArrayList<CurrencyName>>() {}.getType();
+            currencyNameList.setValue(JsonConverter.<ArrayList<CurrencyName>>convertFromJson(json, type));
         }
         return currencyNameList;
     }
@@ -60,21 +69,33 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
     }
 
     @Override
-    public void gotRequestedList(ArrayList<ArrayList<String>> list, String requestType) {
-        if (list.size() > 4) {
-            String json = JsonConverter.<ArrayList<ArrayList<String>>>convertToJson(list);
-            sharedPreferenceHelper.saveStringToSharedPreferences(json, requestType);
+    public void gotRequestedList(RequestResult requestResult) {
+        String requestKey = requestResult.getRequestType();
+        Object list = requestResult.getList();
+        if(list != null){
+            if (requestResult.getListSize() > 4) {
+                if (requestResult.getRequestType() == Constants.CURRENCY_NAMES_KEY) {
+                    String json = JsonConverter.convertToJson((ArrayList<CurrencyName>) requestResult.getList());
+                    sharedPreferenceHelper.saveStringToSharedPreferences(json, requestResult.getRequestType());
+                } else {
+                    String json = JsonConverter.convertToJson((CurrencyValues) requestResult.getList());
+                    sharedPreferenceHelper.saveStringToSharedPreferences(json, requestResult.getRequestType());
+                }
+
+
+            }
+
+            switch (requestKey){
+                case Constants.CURRENCY_NAMES_KEY:
+                    currencyNameList.setValue((ArrayList<CurrencyName>) list);
+                    break;
+                case Constants.CURRENCY_VALUES_KEY:
+                    sharedPreferenceHelper.saveStringToSharedPreferences(""+ new Date().getTime(), Constants.TIMESTAMP_KEY);
+                    currencyValueList.setValue((CurrencyValues) list);
+                    break;
+            }
         }
 
-        switch (requestType){
-            case Constants.CURRENCY_NAMES_KEY:
-                currencyNameList.setValue(list);
-                break;
-            case Constants.CURRENCY_VALUES_KEY:
-                sharedPreferenceHelper.saveStringToSharedPreferences(""+ new Date().getTime(), Constants.TIMESTAMP_KEY);
-                currencyValueList.setValue(list);
-                break;
-        }
     }
 
     private boolean timeMoreThenSevenDays(String time){

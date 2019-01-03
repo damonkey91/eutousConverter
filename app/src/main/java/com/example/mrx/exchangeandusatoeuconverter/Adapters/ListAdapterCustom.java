@@ -9,9 +9,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
-import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
 import com.example.mrx.exchangeandusatoeuconverter.R;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
+import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.SearchableSpinner;
 
 import java.util.ArrayList;
 
@@ -61,7 +60,7 @@ public class ListAdapterCustom extends BaseAdapter {
 
         SearchableSpinner spinner = rowView.findViewById(R.id.searchableSpinner);
         EditText editText = rowView.findViewById(R.id.editTextRow);
-        spinner.setAdapter(new ArrayAdapterSpinner(context, 0, spinnerList));
+        //spinner.setAdapter(new ArrayAdapterSpinner(context, 0, spinnerList));
         //spinner.get
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

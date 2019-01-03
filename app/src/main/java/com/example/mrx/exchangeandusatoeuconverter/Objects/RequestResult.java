@@ -1,23 +1,27 @@
 package com.example.mrx.exchangeandusatoeuconverter.Objects;
 
-import java.util.ArrayList;
-
 public class RequestResult {
 
-    private String reguestType;
-    private ArrayList<ArrayList<String>> list;
+    private String requestType;
+    private Object list;
+    private int listSize;
 
-    public RequestResult(String reguestType, ArrayList<ArrayList<String>> list) {
-        this.reguestType = reguestType;
+    public RequestResult(String requestType, Object list, int listSize) {
+        this.requestType = requestType;
         this.list = list;
+        this.listSize = listSize;
     }
 
 
-    public String getReguestType() {
-        return reguestType;
+    public String getRequestType() {
+        return requestType;
     }
 
-    public ArrayList<ArrayList<String>> getList() {
+    public Object getList() {
         return list;
+    }
+
+    public int getListSize() {
+        return listSize;
     }
 }

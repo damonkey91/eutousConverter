@@ -1,19 +1,19 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class JsonConverter {
 
-    public static <T> T convertFromJson(String json){
-        Type type = new TypeToken<T>() {}.getType();
+    public static <T> T convertFromJson(String json, Type type){
         Gson gson = new Gson();
-        return gson.fromJson(json, type);
+        T t = gson.fromJson(json, type);
+        return t;
     }
-
 
     public static <T> String convertToJson(T convert){
         Gson gson = new Gson();

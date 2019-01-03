@@ -1,9 +1,10 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ExchangeRequesterInterface;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.RequestResult;
 
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -24,6 +25,7 @@ import java.util.Iterator;
  */
 
 public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
+
     private final String API_KEY = "3423a5771f530cf0ca1c86a7981671c4";
     public final String[] ARRAY_STRING_ALL_CURRENCY_VALUES ={
             "http://www.apilayer.net/api/live?access_key=3423a5771f530cf0ca1c86a7981671c4&format=1", "quotes", Constants.CURRENCY_VALUES_KEY};
@@ -31,6 +33,7 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
             "http://www.apilayer.net/api/list?access_key=3423a5771f530cf0ca1c86a7981671c4", "currencies",  Constants.CURRENCY_NAMES_KEY};
 
     private ExchangeRequesterInterface callingClass;
+    private int listSize = 0;
 
     public ExchangeRequester(ExchangeRequesterInterface callingClass) {
         this.callingClass = callingClass;
@@ -48,10 +51,8 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
     public RequestResult doInBackground(String... strings) {
 
         String response = getJson(strings);
-        //Todo: jason converting ska flyttas till classen jsonConverter och den ska ta generisk variabel
-        ArrayList<ArrayList<String>> list = convertJson(response, strings);
-
-        return new RequestResult(strings[2], list);
+        Object list = convertJson(response, strings);
+        return new RequestResult(strings[2], list, listSize);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
         super.onPostExecute(resultObject);
 
         if (resultObject.getList() != null){
-            callingClass.gotRequestedList(resultObject.getList(), resultObject.getReguestType());
+            callingClass.gotRequestedList(resultObject);
         }
     }
 
@@ -90,39 +91,58 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("Response", response.toString());
         return  response;
     }
 
-    private ArrayList<ArrayList<String>> convertJson(String jsonString, String[] strings){
-        ArrayList<ArrayList<String>> list = null;
+    private Object convertJson(String jsonString, String[] strings){
+        Object list = null;
         if (jsonString != null) {
             try {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 boolean sucess = Boolean.parseBoolean(jsonObject.getString("success"));
                 if (sucess){
-                    list = new ArrayList<>();
                     JSONObject object = jsonObject.getJSONObject(strings[1]);
-
-                    Iterator x = object.keys();
-
-                    while (x.hasNext()){
-                        String key = (String) x.next();
-                        list.add(new ArrayList<String>(Arrays.asList(key, object.getString(key))));
+                    Iterator<String> iterator = object.keys();
+                    if (Constants.CURRENCY_VALUES_KEY.equals(strings[2])){
+                        list = createCurrencyValue(iterator, object);
+                    } else if (Constants.CURRENCY_NAMES_KEY.equals(strings[2])) {
+                        list = createCurrencyName(iterator, object);
                     }
-                    Log.i("", object.toString());
-
                 }
-/*
-                JSONArray jsonArray = new JSONArray(jsonString);
-                JSONObject jsonObject = jsonArray.getJSONObject(0);
-                value = "" + jsonObject.getDouble("price_usd");
-                */
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
         return list;
+    }
+
+    private Object createCurrencyName(Iterator<String> iterator, JSONObject jsonObject){
+        ArrayList<CurrencyName> list = new ArrayList<>();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            try {
+                list.add(new CurrencyName(key, jsonObject.getString(key)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        listSize = list.size();
+        return list;
+    }
+
+    private Object createCurrencyValue(Iterator<String> iterator, JSONObject jsonObject){
+        HashMap<String, Double> hashMap = new HashMap<>();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            try {
+                hashMap.put(key, jsonObject.getDouble(key));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        listSize = hashMap.size();
+        return new CurrencyValues(hashMap);
     }
 }

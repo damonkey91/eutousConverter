@@ -9,13 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
-import com.example.mrx.exchangeandusatoeuconverter.Interfaces.IObserverUpdate;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
+import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
 import com.example.mrx.exchangeandusatoeuconverter.R;
+import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.Adapters.RecyclerViewAdapter;
+import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.Adapters.SpinnerAdapter;
+import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.SearchableSpinner;
 import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelCurrency;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
 
@@ -28,14 +32,15 @@ import androidx.lifecycle.ViewModelProviders;
  * Created by mrx on 2018-07-15.
  */
 
-public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher, IObserverUpdate {
+public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher {
 
     private View view;
     private ViewModelCurrency viewModel;
     private ArrayList<Cell> cells = new ArrayList<>();
-    private EditText focusedEditText;
-    private ArrayAdapterSpinner spinnerAdapter;
-    private ArrayList<ArrayList<String>> currencyValues;
+    private Cell focusedCell;
+    private CurrencyValues currencyValues;
+    private SpinnerAdapter spinnerAdapter;
+    private ArrayList<RecyclerViewAdapter> adapterList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -50,20 +55,25 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     private void createDynamicView(){
         String textlist[] = new String[]{"1", "2", "333", "4444", "555555", "66666", "77777777777"};
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
-        spinnerAdapter = new ArrayAdapterSpinner(getContext(), 0, new ArrayList<ArrayList<String>>());
+        spinnerAdapter = new SpinnerAdapter(getContext(), 0, viewModel.getCurrencyNameList().getValue());
+
         for (int i = 0; i <= 5; i++){
             int etID = 100 + i;
             int spinnerID = 200 + i;
             RelativeLayout.LayoutParams lpSpinner = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             RelativeLayout.LayoutParams lpEditText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+            RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(viewModel.getCurrencyNameList().getValue());
+
             SearchableSpinner searchableSpinner = new SearchableSpinner(getContext());
-            searchableSpinner.setAdapter(spinnerAdapter);
+            searchableSpinner.setAdapters(spinnerAdapter, recyclerViewAdapter);
             searchableSpinner.setId(spinnerID);
             lpSpinner.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpSpinner.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             lpSpinner.addRule(RelativeLayout.ALIGN_TOP, etID);
             lpSpinner.addRule(RelativeLayout.ALIGN_BOTTOM,etID);
+            recyclerViewAdapter.setCallback(searchableSpinner);
+            adapterList.add(recyclerViewAdapter);
 
             EditText editText = new EditText(getContext());
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -79,7 +89,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
             relativeLayout.addView(searchableSpinner,lpSpinner);
             relativeLayout.addView(editText, lpEditText);
-            cells.add(new Cell(editText, searchableSpinner));
+            cells.add(new Cell(editText, searchableSpinner, i));
         }
     }
 
@@ -91,18 +101,22 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     }
 
     private void setupObservers() {
-        viewModel.getCurrencyNameList().observe(this, createObserver(spinnerAdapter));
-        viewModel.getCurrencyValueList().observe(this, createObserver(this));
-    }
-
-    private Observer createObserver(final IObserverUpdate target){
-        final Observer<ArrayList<ArrayList<String>>> observer = new Observer<ArrayList<ArrayList<String>>>() {
+        viewModel.getCurrencyNameList().observe(this, new Observer<ArrayList<CurrencyName>>() {
             @Override
-            public void onChanged(@Nullable final ArrayList<ArrayList<String>> list) {
-                target.update(list);
+            public void onChanged(ArrayList<CurrencyName> currencyNames) {
+                spinnerAdapter.update(currencyNames);
+                for (RecyclerViewAdapter adapter : adapterList) {
+                    adapter.update(currencyNames);
+                }
             }
-        };
-        return observer;
+        });
+        final FragmentConverter target = this;
+        viewModel.getCurrencyValueList().observe(this, new Observer<CurrencyValues>() {
+            @Override
+            public void onChanged(CurrencyValues currencyValues) {
+                target.currencyValues = currencyValues;
+            }
+        });
     }
 
     private double calculateCurrency(){
@@ -120,6 +134,31 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         //Todo: När texten ändras ska en beräknare anropas som tar värdet ur den aktiva edittext och räknar om värdet till usd. Därefter berälnas alla andra edit texts.
+        String currencyKey = focusedCell.getSpinnerKey();
+        String text = focusedCell.getEditText().getText().toString();
+        double inputValue = text.isEmpty() ? 0 : Double.parseDouble(text);
+        if (currencyValues.contains(currencyKey)){
+            double focusedValue = currencyValues.getValueFor(currencyKey);
+            double usd = inputValue / focusedValue;
+
+            for (Cell cell : cells) {
+                if (cell != focusedCell){
+                    String key = cell.getSpinnerKey();
+                    if (currencyValues.contains(key)) {
+                        double value = currencyValues.getValueFor(key);
+                        cell.setEditText(""+(value * usd));
+                    } else {
+                        toastNoCurrencyValue(key);
+                    }
+                }
+            }
+        } else {
+            toastNoCurrencyValue(currencyKey);
+        }
+    }
+
+    private void toastNoCurrencyValue(String currencyKey) {
+        Toast.makeText(getContext(), "No value for " + currencyKey, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -130,16 +169,12 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus){
-            focusedEditText = (EditText) v;
-            focusedEditText.addTextChangedListener(this);
+            int id = v.getId();
+            focusedCell = cells.get(id-100);
+            focusedCell.getEditText().addTextChangedListener(this);
         } else {
-            focusedEditText.removeTextChangedListener(this);
+            ((EditText) v).removeTextChangedListener(this);
         }
-    }
-
-    @Override
-    public void update(ArrayList<ArrayList<String>> list) {
-        currencyValues = list;
     }
 }
 //Todo: första gången du startar appen så är spinners inte populerad
