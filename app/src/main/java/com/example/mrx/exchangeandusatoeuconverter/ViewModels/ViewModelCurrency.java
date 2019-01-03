@@ -22,7 +22,6 @@ import androidx.lifecycle.MutableLiveData;
 
 public class ViewModelCurrency extends AndroidViewModel implements ExchangeRequesterInterface {
 
-    private ExchangeRequester exchangeRequester;
     private SharedPreferenceHelper sharedPreferenceHelper;
     //Dessa två arrays ska vara liveData
     private MutableLiveData<ArrayList<CurrencyName>> currencyNameList;
@@ -32,18 +31,19 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
         super(application);
         currencyNameList = new MutableLiveData<>();
         currencyValueList = new MutableLiveData<>();
-        exchangeRequester = new ExchangeRequester(this);
         sharedPreferenceHelper = new SharedPreferenceHelper(application);
     }
 
     public MutableLiveData<CurrencyValues> getCurrencyValueList() {
         String json = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.CURRENCY_VALUES_KEY);
-        if (json != null) {
+        String time = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.TIMESTAMP_KEY);
+        if (json == null || time == null || timeMoreThenSevenDays(time)) {
+            requestCurrencyValues();
+        } else {
             Type type = new TypeToken<CurrencyValues>() {}.getType();
             CurrencyValues list = JsonConverter.<CurrencyValues>convertFromJson(json, type);
             currencyValueList.setValue(list);
         }
-        requestCurrencyValues();
         return currencyValueList;
     }
 
@@ -59,13 +59,11 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
     }
 
     private void requestCurrencyValues() {
-        String time = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.TIMESTAMP_KEY);
-        if (time == null || timeMoreThenSevenDays(time) )
-            new ExchangeRequester(this).requestCurrencyValueList();
+        new ExchangeRequester(this).requestCurrencyValueList();
     }
 
     private void requestCurrencyNames() {
-        exchangeRequester.requestCurrencyNameList();
+        new ExchangeRequester(this).requestCurrencyNameList();
     }
 
     @Override

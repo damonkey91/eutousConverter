@@ -136,8 +136,9 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
         HashMap<String, Double> hashMap = new HashMap<>();
         while (iterator.hasNext()){
             String key = iterator.next();
+            String modifiedKey = key.replaceFirst("USD", "");
             try {
-                hashMap.put(key, jsonObject.getDouble(key));
+                hashMap.put(modifiedKey, jsonObject.getDouble(key));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

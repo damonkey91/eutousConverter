@@ -26,8 +26,6 @@ public class Filter extends android.widget.Filter {
         } else {
             searchText = searchText.toLowerCase();
             for (CurrencyName currencyName : list) {
-                boolean fi = currencyName.getShortName().toLowerCase().contains(searchText);
-                boolean fo = currencyName.getFullName().toLowerCase().contains(searchText);
                 if (currencyName.getShortName().toLowerCase().contains(searchText) || currencyName.getFullName().toLowerCase().contains(searchText)) {
                     filteredList.add(currencyName);
                 }

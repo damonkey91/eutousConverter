@@ -62,6 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void update(ArrayList<CurrencyName> list) {
         this.list = list;
+        filteredList = list;
         notifyDataSetChanged();
     }
 

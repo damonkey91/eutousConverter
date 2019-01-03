@@ -20,11 +20,8 @@ import androidx.annotation.Nullable;
 
 public class SpinnerAdapter extends ArrayAdapter<CurrencyName> implements IUpdate {
 
-    private List<CurrencyName> list;
-
     public SpinnerAdapter(@NonNull Context context, int resource, @NonNull List<CurrencyName> objects) {
         super(context, resource, objects);
-        list = objects;
     }
 
     @NonNull
@@ -38,7 +35,6 @@ public class SpinnerAdapter extends ArrayAdapter<CurrencyName> implements IUpdat
             view = convertView;
         }
 
-
         ((TextView)view.findViewById(R.id.spinnerFirstText)).setText(getItem(position).getShortName());
         //((ImageView) view.findViewById(R.id.spinnerFlagImage)).setImageBitmap();
 
@@ -47,7 +43,8 @@ public class SpinnerAdapter extends ArrayAdapter<CurrencyName> implements IUpdat
 
     @Override
     public void update(ArrayList<CurrencyName> list) {
-        this.list = list;
+        this.clear();
+        this.addAll(list);
         notifyDataSetChanged();
     }
 }

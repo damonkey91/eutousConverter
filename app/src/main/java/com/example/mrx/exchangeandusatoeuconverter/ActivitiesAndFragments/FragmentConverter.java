@@ -55,7 +55,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     private void createDynamicView(){
         String textlist[] = new String[]{"1", "2", "333", "4444", "555555", "66666", "77777777777"};
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
-        spinnerAdapter = new SpinnerAdapter(getContext(), 0, viewModel.getCurrencyNameList().getValue());
+        spinnerAdapter = new SpinnerAdapter(getContext(), 0, new ArrayList<CurrencyName>());
 
         for (int i = 0; i <= 5; i++){
             int etID = 100 + i;
@@ -63,7 +63,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             RelativeLayout.LayoutParams lpSpinner = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             RelativeLayout.LayoutParams lpEditText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-            RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(viewModel.getCurrencyNameList().getValue());
+            RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<CurrencyName>());
 
             SearchableSpinner searchableSpinner = new SearchableSpinner(getContext());
             searchableSpinner.setAdapters(spinnerAdapter, recyclerViewAdapter);
