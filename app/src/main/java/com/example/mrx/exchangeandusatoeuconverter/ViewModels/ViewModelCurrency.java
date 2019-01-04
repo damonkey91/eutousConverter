@@ -23,7 +23,6 @@ import androidx.lifecycle.MutableLiveData;
 public class ViewModelCurrency extends AndroidViewModel implements ExchangeRequesterInterface {
 
     private SharedPreferenceHelper sharedPreferenceHelper;
-    //Dessa två arrays ska vara liveData
     private MutableLiveData<ArrayList<CurrencyName>> currencyNameList;
     private MutableLiveData<CurrencyValues> currencyValueList;
 

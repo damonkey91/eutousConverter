@@ -80,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            callback.itemClicked(getAdapterPosition());
+            callback.itemClicked(getPositionFromList(getAdapterPosition()));
         }
     }
 
@@ -88,4 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.callback = callback;
     }
 
+    private int getPositionFromList(int filteredListPosition){
+        return list.indexOf(filteredList.get(filteredListPosition));
+    }
 }
