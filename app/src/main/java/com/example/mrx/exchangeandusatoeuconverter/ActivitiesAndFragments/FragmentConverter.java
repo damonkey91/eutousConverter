@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.mrx.exchangeandusatoeuconverter.Adapters.ArrayAdapterSpinner;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.transition.Slide;
 
 /**
  * Created by mrx on 2018-07-15.
@@ -70,8 +71,8 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             searchableSpinner.setId(spinnerID);
             lpSpinner.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpSpinner.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            lpSpinner.addRule(RelativeLayout.ALIGN_TOP, etID);
-            lpSpinner.addRule(RelativeLayout.ALIGN_BOTTOM,etID);
+            lpSpinner.addRule(RelativeLayout.BELOW, spinnerID-1);
+
             recyclerViewAdapter.setCallback(searchableSpinner);
             adapterList.add(recyclerViewAdapter);
 
@@ -79,11 +80,15 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             editText.setOnFocusChangeListener(this);
             editText.setId(etID);
+            editText.setBackground(getResources().getDrawable(R.drawable.edittext_background_square));
             lpEditText.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpEditText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             lpEditText.addRule(RelativeLayout.END_OF, spinnerID);
             lpEditText.addRule(RelativeLayout.RIGHT_OF, spinnerID);
-            lpEditText.addRule(RelativeLayout.BELOW, etID-1);
+            lpEditText.addRule(RelativeLayout.ALIGN_BOTTOM, spinnerID);
+            lpEditText.addRule(RelativeLayout.ALIGN_TOP, spinnerID);
+            //lpEditText.addRule(RelativeLayout.BELOW, etID-1);
+            editText.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
             editText.setText(textlist[i]);
 

@@ -5,5 +5,5 @@ import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import java.util.List;
 
 public interface IFilterCallback {
-    public void filterResult(List<CurrencyName> list);
+    public void filterResult(List<CurrencyName> filteredList);
 }

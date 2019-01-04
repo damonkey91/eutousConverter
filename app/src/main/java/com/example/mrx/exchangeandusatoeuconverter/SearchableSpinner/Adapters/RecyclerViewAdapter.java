@@ -27,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public RecyclerViewAdapter(ArrayList<CurrencyName> list){
         this.list = list;
-        filteredList = list;
+        resetFilteredList();
     }
 
     @NonNull
@@ -54,15 +54,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void filterResult(List<CurrencyName> list) {
-        filteredList = list;
+    public void filterResult(List<CurrencyName> filteredList) {
+        this.filteredList = filteredList;
         notifyDataSetChanged();
     }
 
     @Override
     public void update(ArrayList<CurrencyName> list) {
         this.list = list;
-        filteredList = list;
+        resetFilteredList();
         notifyDataSetChanged();
     }
 
@@ -81,6 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View v) {
             callback.itemClicked(getPositionFromList(getAdapterPosition()));
+            resetFilteredList();
         }
     }
 
@@ -90,5 +91,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private int getPositionFromList(int filteredListPosition){
         return list.indexOf(filteredList.get(filteredListPosition));
+    }
+
+    public void resetFilteredList(){
+        filteredList = list;
     }
 }

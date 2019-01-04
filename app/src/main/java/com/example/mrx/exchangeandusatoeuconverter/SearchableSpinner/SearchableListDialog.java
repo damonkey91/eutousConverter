@@ -2,6 +2,7 @@ package com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,12 @@ public class SearchableListDialog extends DialogFragment implements SearchView.O
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle("Välj valuta!")
                 .setView(view)
-                .setNegativeButton(android.R.string.cancel, null);
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listAdapter.resetFilteredList();
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams
                 .SOFT_INPUT_STATE_HIDDEN);
