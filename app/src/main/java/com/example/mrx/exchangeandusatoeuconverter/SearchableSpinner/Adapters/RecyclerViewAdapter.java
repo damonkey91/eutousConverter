@@ -4,8 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.IUpdate;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import com.example.mrx.exchangeandusatoeuconverter.R;
@@ -41,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         CurrencyName currencyName = filteredList.get(position);
         holder.title.setText(currencyName.getShortName());
         holder.description.setText(currencyName.getFullName());
+        holder.flagImage.setImageDrawable(GetDrawable.getDrawable(currencyName.getShortName()));
     }
 
     @Override
@@ -70,11 +73,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private TextView title;
         private TextView description;
+        private ImageView flagImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.title = itemView.findViewById(R.id.title_currency_dialog);
             this.description = itemView.findViewById(R.id.description_dialog);
+            flagImage = itemView.findViewById(R.id.image_flag_dialog);
             itemView.setOnClickListener(this);
         }
 

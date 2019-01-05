@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.IUpdate;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import com.example.mrx.exchangeandusatoeuconverter.R;
@@ -34,9 +35,9 @@ public class SpinnerAdapter extends ArrayAdapter<CurrencyName> implements IUpdat
         } else {
             view = convertView;
         }
-
-        ((TextView)view.findViewById(R.id.spinnerFirstText)).setText(getItem(position).getShortName());
-        //((ImageView) view.findViewById(R.id.spinnerFlagImage)).setImageBitmap();
+        CurrencyName currencyName = getItem(position);
+        ((TextView)view.findViewById(R.id.spinnerFirstText)).setText(currencyName.getShortName());
+        ((ImageView) view.findViewById(R.id.spinnerFlagImage)).setImageDrawable(GetDrawable.getDrawable(currencyName.getShortName()));
 
         return view;
     }
