@@ -26,4 +26,8 @@ public class GetDrawable extends Application {
             return ContextCompat.getDrawable(instance, R.mipmap.ic_launcher);
         }
     }
+
+    public static String getStringResource(int id){
+        return instance.getString(id);
+    }
 }

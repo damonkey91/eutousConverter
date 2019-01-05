@@ -11,7 +11,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:name=".Helpers.GetDrawable">
         <activity android:name=".ActivitiesAndFragments.Exchange"
-            android:windowSoftInputMode="stateAlwaysHidden">
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

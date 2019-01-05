@@ -4,6 +4,7 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.mrx.exchangeandusatoeuconverter.Adapters.MyFragmentPagerAdapter;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -59,33 +60,7 @@ public class Exchange extends AppCompatActivity {
     }
 
     private void createFragmentAdapter(){
-        adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-
-            private final List<Fragment> fragmentList = new ArrayList<Fragment>(){{
-                add(new FragmentConverter());
-                add(new FragmentUStoEU());
-            }};
-            private final List<String> titleList = new ArrayList<String>(){{
-                add(getResources().getString(R.string.currrency_converter));
-                add(getResources().getString(R.string.us_to_eu));
-            }};
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return titleList.get(position);
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return fragmentList.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return fragmentList.size();
-            }
-
-        };
+        adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
     }
 
 }

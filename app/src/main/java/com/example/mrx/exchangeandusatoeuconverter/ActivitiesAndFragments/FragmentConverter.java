@@ -21,6 +21,7 @@ import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.Adapters.Sp
 import com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner.SearchableSpinner;
 import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelCurrency;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
@@ -80,14 +81,13 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             editText.setOnFocusChangeListener(this);
             editText.setId(etID);
-            editText.setBackground(getResources().getDrawable(R.drawable.edittext_background_square));
+            editText.setBackgroundResource(R.drawable.edittext_background_square);
             lpEditText.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpEditText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             lpEditText.addRule(RelativeLayout.END_OF, spinnerID);
             lpEditText.addRule(RelativeLayout.RIGHT_OF, spinnerID);
             lpEditText.addRule(RelativeLayout.ALIGN_BOTTOM, spinnerID);
             lpEditText.addRule(RelativeLayout.ALIGN_TOP, spinnerID);
-            //lpEditText.addRule(RelativeLayout.BELOW, etID-1);
             editText.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
             editText.setText(textlist[i]);
@@ -151,7 +151,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
                     String key = cell.getSpinnerKey();
                     if (currencyValues.contains(key)) {
                         double value = currencyValues.getValueFor(key);
-                        cell.setEditText(""+(value * usd));
+                        cell.setEditText(""+new DecimalFormat("#.##").format(value * usd));
                     } else {
                         toastNoCurrencyValue(key);
                     }
@@ -182,9 +182,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
         }
     }
 }
-//Todo: första gången du startar appen så är spinners inte populerad
-//Todo: Försök göra klart den befintliga
-//Todo: gör en egen searchable spinner
-//Todo: spinner list som ser ut som en tableview och går att söka i
-//Todo: customAdapter som kan ta emot ArrayList<ArrayList<String>>
-//Todo:
+
+//Todo: save choosen currencys.
+//Todo: räkna ut värdet direkt när appen startar och när ny currency väljs.
+//Todo: appen krashar när den legat i bakgrunden och sedan startas på nytt.
