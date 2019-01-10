@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewUnit;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.HideSoftKeyboard;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackEditTextTextChanged;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackRecyclerAdapter;
@@ -71,7 +72,6 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
 
     @Override
     public void callback(int position) {
-        Log.d("Hello", ""+position);
         viewModel.setChoosenMeasurment(position);
         changeAdapter(UNIT_ADAPTER);
     }
@@ -93,12 +93,14 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
                 listView.setAdapter(adapter);
                 closeApp = true;
                 actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setTitle(GetDrawable.getStringResource(R.string.app_name));
                 break;
             case UNIT_ADAPTER:
                 AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment(), this);
                 listView.setAdapter(adapterUnit);
                 closeApp = false;
                 actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setTitle(viewModel.getChoosenMeasurment().getName());
                 break;
         }
     }
@@ -113,7 +115,5 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     }
 }
 
-//Todo: tangentbordet ska försvinna när man backar o byter sida
 //Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
-//Todo: toolbar ska ändra titel efter mätenhet
 
