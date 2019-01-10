@@ -55,8 +55,13 @@ public class Exchange extends AppCompatActivity {
         });
     }
 
-    public void onNrButtonPressed(View view){
-
+    @Override
+    public void onBackPressed() {
+        FragmentUStoEU fragmentUStoEU = ((FragmentUStoEU)((FragmentPagerAdapter) viewPager.getAdapter()).getItem(1));
+        if (fragmentUStoEU.closeApp)
+            super.onBackPressed();
+        else
+            fragmentUStoEU.changeAdapterOrigin();
     }
 
     private void createFragmentAdapter(){

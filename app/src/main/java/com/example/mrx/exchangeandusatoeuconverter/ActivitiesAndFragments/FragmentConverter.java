@@ -185,4 +185,3 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
 //Todo: save choosen currencys.
 //Todo: räkna ut värdet direkt när appen startar och när ny currency väljs.
-//Todo: appen krashar när den legat i bakgrunden och sedan startas på nytt.

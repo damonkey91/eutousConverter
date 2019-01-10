@@ -42,6 +42,7 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     private RecyclerView listView;
     private View view;
     private ActionBar actionBar;
+    public boolean closeApp = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,10 +95,12 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
             case MEASURMENT_ADAPTER:
                 AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), viewModel.getIconList());
                 listView.setAdapter(adapter);
+                closeApp = true;
                 break;
             case UNIT_ADAPTER:
                 AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment(), this);
                 listView.setAdapter(adapterUnit);
+                closeApp = false;
                 break;
         }
     }
@@ -115,7 +118,6 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
 
 //TODO: Bakåtknappen på telefonen dödar appen
 //Todo: tangentbordet ska försvinna när man backar o byter sida
-//Todo: edittext ska ha en ny bakgrund drawable
 //Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
 //Todo: toolbar ska ändra titel efter mätenhet
 
