@@ -9,6 +9,7 @@ public class Constants {
     public static final String CURRENCY_NAMES_KEY = "currencyCountryListRequest";
     public static final String CURRENCY_VALUES_KEY = "currencyValuesKey";
     public static final String TIMESTAMP_KEY = "timeStampKeyCurrencyValues";
+    public static final String CHOOSEN_CURRENCYS_KEY = "chosenCurrencysArrayContainingIntegers";
 
     //measurments
     public static final String AREA_KEY = "areakey";

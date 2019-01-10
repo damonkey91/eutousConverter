@@ -42,6 +42,7 @@ public class SearchableSpinner extends Spinner implements View.OnTouchListener, 
 
     public void setAdapters(SpinnerAdapter spinnerAdapter, RecyclerViewAdapter listAdapter){
         setAdapter(spinnerAdapter);
+        listAdapter.setCallback(this);
         searchableListDialog = SearchableListDialog.newInstance(listAdapter);
     }
 

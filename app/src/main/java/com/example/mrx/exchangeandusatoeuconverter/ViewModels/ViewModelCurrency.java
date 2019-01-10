@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -25,12 +26,22 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
     private SharedPreferenceHelper sharedPreferenceHelper;
     private MutableLiveData<ArrayList<CurrencyName>> currencyNameList;
     private MutableLiveData<CurrencyValues> currencyValueList;
+    private HashMap<Integer, Integer> choosenCurrencys;
 
     public ViewModelCurrency(@NonNull Application application) {
         super(application);
         currencyNameList = new MutableLiveData<>();
         currencyValueList = new MutableLiveData<>();
         sharedPreferenceHelper = new SharedPreferenceHelper(application);
+        choosenCurrencys = setupChosenCurrencys();
+    }
+
+    private HashMap<Integer, Integer> setupChosenCurrencys(){
+        String json = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.CHOOSEN_CURRENCYS_KEY);
+        if(json != null)
+            return JsonConverter.convertFromJson(json, new TypeToken<HashMap<Integer, Integer>>() {}.getType());
+        else
+            return new HashMap<>();
     }
 
     public MutableLiveData<CurrencyValues> getCurrencyValueList() {
@@ -78,8 +89,6 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
                     String json = JsonConverter.convertToJson((CurrencyValues) requestResult.getList());
                     sharedPreferenceHelper.saveStringToSharedPreferences(json, requestResult.getRequestType());
                 }
-
-
             }
 
             switch (requestKey){
@@ -92,7 +101,6 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
                     break;
             }
         }
-
     }
 
     private boolean timeMoreThenSevenDays(String time){
@@ -100,5 +108,19 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
         long timeNow = new Date().getTime();
         long oldTime = Long.parseLong(time);
         return timeNow - oldTime >= sevenDays;
+    }
+
+    public int getChoosenCurrency(int position) {
+
+        if (choosenCurrencys.containsKey(position))
+            return choosenCurrencys.get(position);
+
+        return position;
+    }
+
+    public void setChoosenCurrency(int key, int choosenCurrency) {
+        choosenCurrencys.put(key, choosenCurrency);
+        String json = JsonConverter.convertToJson(choosenCurrencys);
+        sharedPreferenceHelper.saveStringToSharedPreferences(json, Constants.CHOOSEN_CURRENCYS_KEY);
     }
 }

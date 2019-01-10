@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackSpinnerItemSelected;
+import com.example.mrx.exchangeandusatoeuconverter.Listeners.SpinnerItemSelectedListener;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
@@ -33,7 +35,7 @@ import androidx.lifecycle.ViewModelProviders;
  * Created by mrx on 2018-07-15.
  */
 
-public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher {
+public class FragmentConverter extends Fragment implements View.OnFocusChangeListener, TextWatcher, ICallbackSpinnerItemSelected {
 
     private View view;
     private ViewModelCurrency viewModel;
@@ -69,11 +71,12 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             SearchableSpinner searchableSpinner = new SearchableSpinner(getContext());
             searchableSpinner.setAdapters(spinnerAdapter, recyclerViewAdapter);
             searchableSpinner.setId(spinnerID);
+            searchableSpinner.setSelection(viewModel.getChoosenCurrency(i));
+            searchableSpinner.setOnItemSelectedListener(new SpinnerItemSelectedListener(i, this));
             lpSpinner.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
             lpSpinner.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             lpSpinner.addRule(RelativeLayout.BELOW, spinnerID-1);
 
-            recyclerViewAdapter.setCallback(searchableSpinner);
             adapterList.add(recyclerViewAdapter);
 
             EditText editText = new EditText(getContext());
@@ -179,6 +182,11 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
         } else {
             ((EditText) v).removeTextChangedListener(this);
         }
+    }
+
+    @Override
+    public void spinnerItemSelected(int cellPosition, int choosenItemPosition) {
+        viewModel.setChoosenCurrency(cellPosition, choosenItemPosition);
     }
 }
 
