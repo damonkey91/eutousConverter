@@ -1,7 +1,6 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
@@ -11,7 +10,7 @@ import androidx.core.content.ContextCompat;
 
 public class GetDrawable extends Application {
 
-    private static GetDrawable instance;
+    public static GetDrawable instance;
 
     public GetDrawable() {
         instance = this;

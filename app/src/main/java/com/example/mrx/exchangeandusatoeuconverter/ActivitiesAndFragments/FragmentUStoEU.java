@@ -1,9 +1,6 @@
 package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewUnit;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.HideSoftKeyboard;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackEditTextTextChanged;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackRecyclerAdapter;
 import com.example.mrx.exchangeandusatoeuconverter.R;
@@ -22,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -77,15 +74,14 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
         Log.d("Hello", ""+position);
         viewModel.setChoosenMeasurment(position);
         changeAdapter(UNIT_ADAPTER);
-        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
+                HideSoftKeyboard.hide(view);
                 changeAdapter(MEASURMENT_ADAPTER);
-                actionBar.setDisplayHomeAsUpEnabled(false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -96,18 +92,19 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
                 AdapterRecyclerViewConverter adapter = new AdapterRecyclerViewConverter(viewModel.getMeasurments(), this, viewModel.getColorList(), viewModel.getIconList());
                 listView.setAdapter(adapter);
                 closeApp = true;
+                actionBar.setDisplayHomeAsUpEnabled(false);
                 break;
             case UNIT_ADAPTER:
                 AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment(), this);
                 listView.setAdapter(adapterUnit);
                 closeApp = false;
+                actionBar.setDisplayHomeAsUpEnabled(true);
                 break;
         }
     }
 
     public void changeAdapterOrigin(){
         changeAdapter(MEASURMENT_ADAPTER);
-        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -116,7 +113,6 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     }
 }
 
-//TODO: Bakåtknappen på telefonen dödar appen
 //Todo: tangentbordet ska försvinna när man backar o byter sida
 //Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
 //Todo: toolbar ska ändra titel efter mätenhet

@@ -1,6 +1,5 @@
 package com.example.mrx.exchangeandusatoeuconverter.Adapters;
 
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;

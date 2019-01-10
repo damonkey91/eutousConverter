@@ -1,9 +1,7 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
-import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
-import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 

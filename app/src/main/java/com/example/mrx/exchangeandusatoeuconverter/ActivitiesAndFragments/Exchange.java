@@ -2,14 +2,11 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
 
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.MyFragmentPagerAdapter;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.HideSoftKeyboard;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -42,8 +39,9 @@ public class Exchange extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                Fragment fragment = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(tab.getPosition());
+                HideSoftKeyboard.hide(fragment.getView());
                 if (tab.getPosition() == 1){
-                    Fragment fragment = ((FragmentPagerAdapter) viewPager.getAdapter()).getItem(tab.getPosition());
                     ((FragmentUStoEU) fragment).changeAdapterOrigin();
                 }
             }

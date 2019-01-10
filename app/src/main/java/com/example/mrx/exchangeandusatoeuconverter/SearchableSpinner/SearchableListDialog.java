@@ -81,4 +81,5 @@ public class SearchableListDialog extends DialogFragment implements SearchView.O
         listAdapter.getFilter().filter(newText);
         return true;
     }
+
 }

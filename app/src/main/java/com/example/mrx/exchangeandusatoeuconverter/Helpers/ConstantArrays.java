@@ -1,7 +1,6 @@
 package com.example.mrx.exchangeandusatoeuconverter.Helpers;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Measurment;

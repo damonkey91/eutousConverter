@@ -3,10 +3,8 @@ package com.example.mrx.exchangeandusatoeuconverter.Objects;
 import android.content.Context;
 
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.ConstantArrays;
-import com.example.mrx.exchangeandusatoeuconverter.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class AllUnits {
