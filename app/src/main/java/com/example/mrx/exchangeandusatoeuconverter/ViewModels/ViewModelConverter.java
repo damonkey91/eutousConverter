@@ -57,6 +57,13 @@ public class ViewModelConverter extends AndroidViewModel {
         return colorList;
     }
 
+    public int getColorFromList(int position){
+        if (colorList.size() > position){
+            return colorList.get(position);
+        }
+        return colorList.get(0);
+    }
+
     public HashMap<String, Drawable> getIconList() {
         return iconList;
     }

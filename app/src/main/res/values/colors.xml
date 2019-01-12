@@ -6,6 +6,8 @@
     <color name="colorButtons">#FF864A</color>
     <color name="colorText">#000000</color>
     <color name="colorEditTextBox">#000000</color>
+    <color name="colorToolbar">#828282</color>
+    <color name="colorBackground">#ffffff</color>
 
     <!-- ColorArray -->
     <color name="gradient1">#FF001F</color>

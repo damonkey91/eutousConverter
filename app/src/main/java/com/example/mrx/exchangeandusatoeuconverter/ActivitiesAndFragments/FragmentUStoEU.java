@@ -2,7 +2,6 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +73,7 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
     public void callback(int position) {
         viewModel.setChoosenMeasurment(position);
         changeAdapter(UNIT_ADAPTER);
+        ((Exchange) getActivity()).setToolbarColor(viewModel.getColorFromList(position));
     }
 
     @Override
@@ -94,6 +94,7 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
                 closeApp = true;
                 actionBar.setDisplayHomeAsUpEnabled(false);
                 actionBar.setTitle(GetDrawable.getStringResource(R.string.app_name));
+                ((Exchange) getActivity()).setToolbarColor(GetDrawable.getColorResource(R.color.colorToolbar));
                 break;
             case UNIT_ADAPTER:
                 AdapterRecyclerViewUnit adapterUnit = new AdapterRecyclerViewUnit(viewModel.getUnitsForChoosenMeasurment(), this);
@@ -116,4 +117,5 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
 }
 
 //Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
+//Todo: för många decimaler på convertern
 

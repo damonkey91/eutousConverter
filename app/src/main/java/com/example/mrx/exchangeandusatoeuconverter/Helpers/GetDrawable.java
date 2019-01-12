@@ -29,4 +29,8 @@ public class GetDrawable extends Application {
     public static String getStringResource(int id){
         return instance.getString(id);
     }
+
+    public static int getColorResource(int id){
+        return ContextCompat.getColor(instance, id);
+    }
 }

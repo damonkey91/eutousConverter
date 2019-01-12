@@ -27,7 +27,8 @@ public class Converters {
         ArrayList<String> array = new ArrayList<>();
         double measuringValue = value/units.get(position).getUnitValue();
         for (Unit unit : units) {
-            String calcValue = ""+(unit.getUnitValue() * measuringValue);
+            double tempValue = (unit.getUnitValue() * measuringValue);
+            String calcValue = MyDecimalFormat.formatDecimal(tempValue);
             array.add(calcValue);
         }
         return array;
@@ -47,10 +48,11 @@ public class Converters {
                 kelvin = value;
                 break;
         }
+        kelvin = kelvin < -273.15 ? -273.15 : kelvin;
         ArrayList<String> array = new ArrayList<>();
-        array.add(""+new DecimalFormat("#.##").format(kelvin - Constants.CELCIUS_UNIT_VALUE));
-        array.add(""+new DecimalFormat("#.##").format(((kelvin * (9.0/5.0)) - 459.67)));
-        array.add(""+new DecimalFormat("#.##").format(kelvin));
+        array.add(""+ MyDecimalFormat.formatDecimalSimple(kelvin - Constants.CELCIUS_UNIT_VALUE));
+        array.add(""+ MyDecimalFormat.formatDecimalSimple(((kelvin * (9.0/5.0)) - 459.67)));
+        array.add(""+ MyDecimalFormat.formatDecimalSimple(kelvin));
         return array;
     }
 }

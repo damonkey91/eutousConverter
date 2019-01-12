@@ -4,6 +4,7 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 import android.os.Bundle;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.MyFragmentPagerAdapter;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.HideSoftKeyboard;
 import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.google.android.material.tabs.TabLayout;
@@ -19,12 +20,15 @@ public class Exchange extends AppCompatActivity {
     private FragmentPagerAdapter adapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exchange);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setToolbarColor(GetDrawable.getColorResource(R.color.colorToolbar));
 
         createFragmentAdapter();
         viewPager = findViewById(R.id.viewPager);
@@ -66,4 +70,10 @@ public class Exchange extends AppCompatActivity {
         adapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
     }
 
+    public void setToolbarColor(int color){
+        toolbar.setBackgroundColor(color);
+    }
+
 }
+
+//TODO: kan inte skriva negativa siffror i temperatur

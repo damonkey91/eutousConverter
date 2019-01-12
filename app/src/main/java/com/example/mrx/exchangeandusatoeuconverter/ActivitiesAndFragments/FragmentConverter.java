@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.MyDecimalFormat;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackSpinnerItemSelected;
 import com.example.mrx.exchangeandusatoeuconverter.Listeners.SpinnerItemSelectedListener;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
@@ -52,11 +54,18 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
         viewModel = ViewModelProviders.of(getActivity()).get(ViewModelCurrency.class);
         createDynamicView();
         setupObservers();
+        setFocus();
         return view;
     }
 
+    private void setFocus() {
+        focusedCell = cells.get(0);
+        EditText editText = cells.get(0).getEditText();
+        editText.setText("1");
+        editText.requestFocus();
+    }
+
     private void createDynamicView(){
-        String textlist[] = new String[]{"1", "2", "333", "4444", "555555", "66666", "77777777777"};
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
         spinnerAdapter = new SpinnerAdapter(getContext(), 0, new ArrayList<CurrencyName>());
 
@@ -91,8 +100,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             lpEditText.addRule(RelativeLayout.ALIGN_BOTTOM, spinnerID);
             lpEditText.addRule(RelativeLayout.ALIGN_TOP, spinnerID);
             editText.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-
-            editText.setText(textlist[i]);
+            editText.setTextColor(GetDrawable.getColorResource(R.color.colorText));
 
             relativeLayout.addView(searchableSpinner,lpSpinner);
             relativeLayout.addView(editText, lpEditText);
@@ -126,13 +134,6 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
         });
     }
 
-    private double calculateCurrency(){
-        for (Cell cell : cells) {
-
-        }
-        return 0;
-    }
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -140,28 +141,42 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        //Todo: När texten ändras ska en beräknare anropas som tar värdet ur den aktiva edittext och räknar om värdet till usd. Därefter berälnas alla andra edit texts.
-        String currencyKey = focusedCell.getSpinnerKey();
-        String text = focusedCell.getEditText().getText().toString();
-        double inputValue = text.isEmpty() ? 0 : Double.parseDouble(text);
-        if (currencyValues.contains(currencyKey)){
-            double focusedValue = currencyValues.getValueFor(currencyKey);
-            double usd = inputValue / focusedValue;
+        //When text changed, the usd value for the focused editText is calculated and then the rest editText are calculated.
+        calculateCurrencys();
+    }
 
+    private void calculateCurrencys() {
+        String currencyKey = focusedCell.getSpinnerKey();
+        if (currencyValues.contains(currencyKey)){
+            double usd = calculateUsdForFocusedCell();
             for (Cell cell : cells) {
-                if (cell != focusedCell){
-                    String key = cell.getSpinnerKey();
-                    if (currencyValues.contains(key)) {
-                        double value = currencyValues.getValueFor(key);
-                        cell.setEditText(""+new DecimalFormat("#.##").format(value * usd));
-                    } else {
-                        toastNoCurrencyValue(key);
-                    }
-                }
+                calculateCurrencyForCell(cell, usd);
             }
         } else {
             toastNoCurrencyValue(currencyKey);
         }
+    }
+
+    private double calculateUsdForFocusedCell(){
+        String text = focusedCell.getEditText().getText().toString();
+        double inputValue = text.isEmpty() ? 0 : Double.parseDouble(text);
+        double focusedValue = currencyValues.getValueFor(focusedCell.getSpinnerKey());
+        double usd = inputValue / focusedValue;
+        return usd;
+    }
+
+    private double calculateCurrencyForCell(Cell cell, double usdValue){
+        if (cell != focusedCell){
+            String key = cell.getSpinnerKey();
+            if (currencyValues.contains(key)) {
+                double value = currencyValues.getValueFor(key);
+                String ss = MyDecimalFormat.formatDecimal(value * usdValue);
+                cell.setEditText(ss);
+            } else {
+                toastNoCurrencyValue(key);
+            }
+        }
+        return 0;
     }
 
     private void toastNoCurrencyValue(String currencyKey) {
@@ -187,8 +202,14 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     @Override
     public void spinnerItemSelected(int cellPosition, int choosenItemPosition) {
         viewModel.setChoosenCurrency(cellPosition, choosenItemPosition);
+        updateEditTextCurrencys(cells.get(cellPosition));
+    }
+
+    private void updateEditTextCurrencys(Cell cell) {
+        if (cell != focusedCell)
+            calculateCurrencyForCell(cell, calculateUsdForFocusedCell());
+        else
+            calculateCurrencys();
     }
 }
 
-//Todo: save choosen currencys.
-//Todo: räkna ut värdet direkt när appen startar och när ny currency väljs.
