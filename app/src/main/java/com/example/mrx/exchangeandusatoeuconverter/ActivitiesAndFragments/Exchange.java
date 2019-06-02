@@ -77,3 +77,4 @@ public class Exchange extends AppCompatActivity {
 }
 
 //TODO: kan inte skriva negativa siffror i temperatur
+//Todo: regex string för E- OSV
