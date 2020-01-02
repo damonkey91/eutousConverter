@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.MyDecimalFormat;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackEditTextTextChanged;
 import com.example.mrx.exchangeandusatoeuconverter.Listeners.ListenerFocusedEditTextListener;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Unit;
@@ -38,7 +39,7 @@ public class AdapterRecyclerViewUnit extends RecyclerView.Adapter<AdapterRecycle
         holder.unitTitle.setText(unit.getUnitName());
         holder.unitFullName.setText(unit.getUnitFullName());
         holder.unitInput.setOnFocusChangeListener(new ListenerFocusedEditTextListener(position, callback));
-        String value = convertedValues == null ? ""+unit.getUnitValue() : convertedValues.get(position);
+        String value = convertedValues == null ? "0" : convertedValues.get(position);
         holder.unitInput.setText(value);
     }
 

@@ -102,6 +102,7 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
                 closeApp = false;
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setTitle(viewModel.getChoosenMeasurment().getName());
+                callbackTextChanged(0, 1);
                 break;
         }
     }

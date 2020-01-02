@@ -71,8 +71,8 @@ public class Constants {
 
 
     //temperature value from kelvin
-    public static final double CELCIUS_UNIT_VALUE = -273.15;
-    public static final double FAHRENHEIT_UNIT_VALUE = -459.67;
+    public static final double CELCIUS_UNIT_VALUE = 273.15;
+    public static final double FAHRENHEIT_UNIT_VALUE = 459.67;
     public static final double KELVIN_UNIT_VALUE = 0;
 
     //weight

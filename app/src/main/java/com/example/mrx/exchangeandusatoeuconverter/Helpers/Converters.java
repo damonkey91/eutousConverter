@@ -39,10 +39,10 @@ public class Converters {
         Unit unit = units.get(position);
         switch (position){
             case 0:
-                kelvin = 273.15 + value;
+                kelvin = Constants.CELCIUS_UNIT_VALUE + value;
                 break;
             case 1:
-                kelvin = (value + 459.67)* (5.0/9.0);
+                kelvin = (value + Constants.FAHRENHEIT_UNIT_VALUE)* (5.0/9.0);
                 break;
             case 2:
                 kelvin = value;
@@ -50,8 +50,8 @@ public class Converters {
         }
         kelvin = kelvin < 0 ? 0 : kelvin;
         ArrayList<String> array = new ArrayList<>();
-        array.add(""+ MyDecimalFormat.formatDecimalSimple(kelvin - 273.15));
-        array.add(""+ MyDecimalFormat.formatDecimalSimple(((kelvin * (9.0/5.0)) - 459.67)));
+        array.add(""+ MyDecimalFormat.formatDecimalSimple(kelvin - Constants.CELCIUS_UNIT_VALUE));
+        array.add(""+ MyDecimalFormat.formatDecimalSimple(((kelvin * (9.0/5.0)) - Constants.FAHRENHEIT_UNIT_VALUE)));
         array.add(""+ MyDecimalFormat.formatDecimalSimple(kelvin));
         return array;
     }
