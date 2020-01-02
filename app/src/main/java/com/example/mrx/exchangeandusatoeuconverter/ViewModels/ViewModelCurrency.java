@@ -2,6 +2,7 @@ package com.example.mrx.exchangeandusatoeuconverter.ViewModels;
 
 import android.app.Application;
 
+import com.example.mrx.exchangeandusatoeuconverter.Constants.AllFlagNames;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.Constants;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.ExchangeRequester;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.JsonConverter;
@@ -58,13 +59,9 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
     }
 
     public MutableLiveData<ArrayList<CurrencyName>> getCurrencyNameList() {
-        String json = sharedPreferenceHelper.getStringFromSharedPreferences(Constants.CURRENCY_NAMES_KEY);
-        if (json == null) {
-            requestCurrencyNames();
-        }else{
-            Type type = new TypeToken<ArrayList<CurrencyName>>() {}.getType();
-            currencyNameList.setValue(JsonConverter.<ArrayList<CurrencyName>>convertFromJson(json, type));
-        }
+        String json = AllFlagNames.ALL_FLAG_NAMES;
+        Type type = new TypeToken<ArrayList<CurrencyName>>() {}.getType();
+        currencyNameList.setValue(JsonConverter.<ArrayList<CurrencyName>>convertFromJson(json, type));
         return currencyNameList;
     }
 
