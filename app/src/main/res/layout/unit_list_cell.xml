@@ -43,7 +43,7 @@
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="right"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="@+id/unitFullName"
         app:layout_constraintEnd_toEndOf="parent"

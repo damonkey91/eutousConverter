@@ -159,7 +159,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
     private double calculateUsdForFocusedCell(){
         String text = focusedCell.getEditText().getText().toString();
-        double inputValue = text.isEmpty() ? 0 : Double.parseDouble(text);
+        double inputValue = text.isEmpty() || text.equals(".") ? 0 : Double.parseDouble(text);
         double focusedValue = currencyValues.getValueFor(focusedCell.getSpinnerKey());
         double usd = inputValue / focusedValue;
         return usd;

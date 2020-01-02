@@ -35,7 +35,7 @@ public class ListenerFocusedEditTextListener implements View.OnFocusChangeListen
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String text = s.toString();
         double input = 0;
-        if (!text.isEmpty() && !text.matches("\\bE\\b")){
+        if (!text.isEmpty() && !text.equals(".") && !text.equals("-") && !text.matches("\\bE\\b")){
             input = Double.parseDouble(text);
         }
         callback.callbackTextChanged(position, input);
