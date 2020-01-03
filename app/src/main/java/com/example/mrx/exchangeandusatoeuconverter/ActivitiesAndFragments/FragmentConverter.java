@@ -2,6 +2,7 @@ package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -102,6 +103,10 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             editText.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
             editText.setTextColor(GetDrawable.getColorResource(R.color.colorText));
 
+            InputFilter[] filterArray = new InputFilter[1];
+            filterArray[0] = new InputFilter.LengthFilter(20);
+            editText.setFilters(filterArray);
+
             relativeLayout.addView(searchableSpinner,lpSpinner);
             relativeLayout.addView(editText, lpEditText);
             cells.add(new Cell(editText, searchableSpinner, i));
@@ -159,7 +164,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
     private double calculateUsdForFocusedCell(){
         String text = focusedCell.getEditText().getText().toString();
-        double inputValue = text.isEmpty() || text.equals(".") ? 0 : Double.parseDouble(text);
+        double inputValue = MyDecimalFormat.ParseStringToDouble(text);
         double focusedValue = currencyValues.getValueFor(focusedCell.getSpinnerKey());
         double usd = inputValue / focusedValue;
         return usd;

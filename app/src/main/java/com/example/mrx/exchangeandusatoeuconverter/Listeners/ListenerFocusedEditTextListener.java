@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.MyDecimalFormat;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackEditTextTextChanged;
 
 public class ListenerFocusedEditTextListener implements View.OnFocusChangeListener, TextWatcher {
@@ -34,10 +35,8 @@ public class ListenerFocusedEditTextListener implements View.OnFocusChangeListen
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String text = s.toString();
-        double input = 0;
-        if (!text.isEmpty() && !text.equals(".") && !text.equals("-") && !text.matches("\\bE\\b")){
-            input = Double.parseDouble(text);
-        }
+
+        double input = MyDecimalFormat.ParseStringToDouble(text);
         callback.callbackTextChanged(position, input);
     }
 

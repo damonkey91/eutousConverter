@@ -75,5 +75,3 @@ public class Exchange extends AppCompatActivity {
     }
 
 }
-
-//Todo: regex string för E- OSV

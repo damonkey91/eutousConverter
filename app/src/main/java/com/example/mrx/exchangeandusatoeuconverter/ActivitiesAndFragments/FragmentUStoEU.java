@@ -118,5 +118,3 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
 }
 
 //Todo: designa units tabell celler, text tjocklek och indikation på vilken cell som är i fokus
-//Todo: för många decimaler på convertern
-
