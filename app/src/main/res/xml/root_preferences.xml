@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/currrency_converter">
+
+        <ListPreference
+            app:key="amoountofcurrencies"
+            app:title="@string/amount_currencies"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="5"
+            app:entries="@array/nr_currencies_entries"
+            app:entryValues="@array/nr_currencies_values"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about">
+
+        <Preference
+            app:title="@string/created"
+            app:summary="Snow White Development"
+            app:icon="@drawable/ic_snowy_flake"/>
+
+        <Preference
+            app:title="@string/version"
+            app:key="versionnr"
+            app:summary="1.0.0"
+            app:icon="@drawable/ic_android_black_24dp" />
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

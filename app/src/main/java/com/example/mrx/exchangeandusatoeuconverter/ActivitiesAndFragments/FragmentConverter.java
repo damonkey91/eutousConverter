@@ -1,5 +1,7 @@
 package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -7,6 +9,9 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -29,10 +34,14 @@ import com.example.mrx.exchangeandusatoeuconverter.ViewModels.ViewModelCurrency;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import static com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments.SettingsActivity.AMOUNT_OF_CURRENCIES_KEY;
+import static com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments.SettingsActivity.SHARED_PREFS_KEY;
 
 /**
  * Created by mrx on 2018-07-15.
@@ -47,6 +56,12 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     private CurrencyValues currencyValues;
     private SpinnerAdapter spinnerAdapter;
     private ArrayList<RecyclerViewAdapter> adapterList = new ArrayList<>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -69,8 +84,10 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     private void createDynamicView(){
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
         spinnerAdapter = new SpinnerAdapter(getContext(), 0, new ArrayList<CurrencyName>());
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        int amountOfCurrencies = Integer.parseInt(sharedPreferences.getString(AMOUNT_OF_CURRENCIES_KEY, "5"));
 
-        for (int i = 0; i <= 5; i++){
+        for (int i = 0; i <= amountOfCurrencies; i++){
             int etID = 100 + i;
             int spinnerID = 200 + i;
             RelativeLayout.LayoutParams lpSpinner = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -215,6 +232,16 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             calculateCurrencyForCell(cell, calculateUsdForFocusedCell());
         else
             calculateCurrencys();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settings:
+                ((Exchange) getActivity()).openSettings();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -1,7 +1,11 @@
 package com.example.mrx.exchangeandusatoeuconverter.ActivitiesAndFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.MyFragmentPagerAdapter;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
@@ -74,4 +78,16 @@ public class Exchange extends AppCompatActivity {
         toolbar.setBackgroundColor(color);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflator = getMenuInflater();
+        inflator.inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    public void openSettings(){
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
+
+    }
 }

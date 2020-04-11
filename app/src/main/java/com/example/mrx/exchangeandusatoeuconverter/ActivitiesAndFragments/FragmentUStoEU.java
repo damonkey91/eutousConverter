@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Adapters.AdapterRecyclerViewUnit;
@@ -82,6 +83,10 @@ public class FragmentUStoEU extends Fragment implements ICallbackRecyclerAdapter
             case android.R.id.home:
                 HideSoftKeyboard.hide(view);
                 changeAdapter(MEASURMENT_ADAPTER);
+                break;
+            case R.id.settings:
+                ((Exchange) getActivity()).openSettings();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

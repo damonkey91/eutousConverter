@@ -7,7 +7,7 @@
     <color name="colorText">#000000</color>
     <color name="colorEditTextBox">#000000</color>
     <color name="colorToolbar">#828282</color>
-    <color name="colorBackground">#ffffff</color>
+    <color name="colorBackground">#F0F0F0</color>
 
     <!-- ColorArray -->
     <color name="gradient1">#FF001F</color>
