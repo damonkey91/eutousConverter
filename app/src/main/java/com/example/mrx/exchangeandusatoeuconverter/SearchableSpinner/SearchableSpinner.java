@@ -4,7 +4,9 @@ package com.example.mrx.exchangeandusatoeuconverter.SearchableSpinner;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Spinner;
@@ -22,6 +24,7 @@ public class SearchableSpinner extends Spinner implements View.OnTouchListener, 
     public static final int NO_ITEM_SELECTED = -1;
     private Context context;
     private SearchableListDialog searchableListDialog;
+    private long lastTouch = 0;
 
     public SearchableSpinner(Context context) {
         super(context);
@@ -58,11 +61,14 @@ public class SearchableSpinner extends Spinner implements View.OnTouchListener, 
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP){
+        boolean clickable = SystemClock.elapsedRealtime() - lastTouch > 1000;
+        if (event.getAction() == MotionEvent.ACTION_UP && clickable){
+            lastTouch = SystemClock.elapsedRealtime();
             //open searchable dialog on click
             searchableListDialog.show(scanForActivity(context).getSupportFragmentManager(), "TAG");
+            return true;
         }
-        return true;
+        return false;
     }
 
     private AppCompatActivity scanForActivity(Context cont) {
@@ -79,5 +85,10 @@ public class SearchableSpinner extends Spinner implements View.OnTouchListener, 
     public void itemClicked(int position) {
         setSelection(position);
         searchableListDialog.dismiss();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return true;
     }
 }
