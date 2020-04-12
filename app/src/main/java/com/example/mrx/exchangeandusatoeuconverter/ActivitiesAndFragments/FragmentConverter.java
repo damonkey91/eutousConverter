@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     private CurrencyValues currencyValues;
     private SpinnerAdapter spinnerAdapter;
     private ArrayList<RecyclerViewAdapter> adapterList = new ArrayList<>();
+    private int amountOfCurrencies;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,15 +85,17 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
 
     private void createDynamicView(){
         RelativeLayout relativeLayout = view.findViewById(R.id.relativlayout_fconverter);
+        relativeLayout.removeAllViews();
         spinnerAdapter = new SpinnerAdapter(getContext(), 0, new ArrayList<CurrencyName>());
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        int amountOfCurrencies = Integer.parseInt(sharedPreferences.getString(AMOUNT_OF_CURRENCIES_KEY, "5"));
+        amountOfCurrencies = Integer.parseInt(sharedPreferences.getString(AMOUNT_OF_CURRENCIES_KEY, "5"));
 
-        for (int i = 0; i <= amountOfCurrencies; i++){
+        for (int i = 0; i < amountOfCurrencies; i++){
             int etID = 100 + i;
             int spinnerID = 200 + i;
             RelativeLayout.LayoutParams lpSpinner = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             RelativeLayout.LayoutParams lpEditText = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams lpline = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, convertToDP(1));
 
             RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<CurrencyName>());
 
@@ -100,7 +104,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             searchableSpinner.setId(spinnerID);
             searchableSpinner.setSelection(viewModel.getChoosenCurrency(i));
             searchableSpinner.setOnItemSelectedListener(new SpinnerItemSelectedListener(i, this));
-            lpSpinner.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
+            lpSpinner.setMargins(convertToDP(8), convertToDP(8), convertToDP(8), convertToDP(8));
             lpSpinner.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             lpSpinner.addRule(RelativeLayout.BELOW, spinnerID-1);
 
@@ -111,7 +115,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             editText.setOnFocusChangeListener(this);
             editText.setId(etID);
             editText.setBackgroundResource(R.drawable.edittext_background_square);
-            lpEditText.setMargins(getMargin(), getMargin(), getMargin(), getMargin());
+            lpEditText.setMargins(convertToDP(8), 0, convertToDP(8), 0);
             lpEditText.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             lpEditText.addRule(RelativeLayout.END_OF, spinnerID);
             lpEditText.addRule(RelativeLayout.RIGHT_OF, spinnerID);
@@ -120,18 +124,25 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
             editText.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
             editText.setTextColor(GetDrawable.getColorResource(R.color.colorText));
 
+            LinearLayout line = new LinearLayout(getContext());
+            line.setBackgroundColor(GetDrawable.getColorResource(R.color.colorDividerLine));
+            lpline.addRule(RelativeLayout.BELOW, spinnerID);
+            lpline.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lpline.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+
             InputFilter[] filterArray = new InputFilter[1];
             filterArray[0] = new InputFilter.LengthFilter(20);
             editText.setFilters(filterArray);
 
             relativeLayout.addView(searchableSpinner,lpSpinner);
             relativeLayout.addView(editText, lpEditText);
+            relativeLayout.addView(line, lpline);
             cells.add(new Cell(editText, searchableSpinner, i));
         }
     }
 
-    private int getMargin(){
-        int dpValue = 8;
+    private int convertToDP(int dpValue){
         float d = getContext().getResources().getDisplayMetrics().density;
         int margin = (int)(dpValue * d);
         return margin;
@@ -242,6 +253,20 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        int tmpCurrencies = Integer.parseInt(sharedPreferences.getString(AMOUNT_OF_CURRENCIES_KEY, "0"));
+        if (amountOfCurrencies != tmpCurrencies){
+            cells = new ArrayList<>();
+            focusedCell = null;
+            createDynamicView();
+            setupObservers();
+            setFocus();
+        }
     }
 }
 

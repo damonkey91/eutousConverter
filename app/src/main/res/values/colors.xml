@@ -8,6 +8,7 @@
     <color name="colorEditTextBox">#000000</color>
     <color name="colorToolbar">#828282</color>
     <color name="colorBackground">#F0F0F0</color>
+    <color name="colorDividerLine">#808080</color>
 
     <!-- ColorArray -->
     <color name="gradient1">#FF001F</color>
