@@ -44,8 +44,9 @@
         android:ems="10"
         android:gravity="right"
         android:inputType="numberSigned|numberDecimal"
-        android:textColor="@color/colorText"
+        android:maxLength="20"
 
+        android:textColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="@+id/unitFullName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/unitFullName"
