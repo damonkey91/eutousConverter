@@ -33,16 +33,16 @@
         <Preference
             app:title="@string/created"
             app:summary="Snow White Development"
-            app:icon="@drawable/ic_snowy_flake"/>
+            app:icon="@drawable/ic_snowy_flake"
+            app:selectable="false"/>
 
         <Preference
             app:title="@string/version"
             app:key="versionnr"
             app:summary="1.0.0"
-            app:icon="@drawable/ic_android_black_24dp" />
-
-
-
+            app:icon="@drawable/ic_android_black_24dp"
+            app:selectable="false"/>
     </PreferenceCategory>
+    <PreferenceCategory app:title="@string/thanks_to"/>
 
 </PreferenceScreen>
