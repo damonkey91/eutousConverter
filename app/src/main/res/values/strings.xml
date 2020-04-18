@@ -1,36 +1,36 @@
 <resources>
-    <string name="app_name">TravelPartner</string>
+    <string name="app_name">Unit Converter</string>
     <string name="currrency_converter">Currencies</string>
-    <string name="us_to_eu">USA to EU</string>
-    <string name="one">1</string>
-    <string name="two">2</string>
-    <string name="three">3</string>
-    <string name="four">4</string>
-    <string name="five">5</string>
-    <string name="six">6</string>
-    <string name="seven">7</string>
-    <string name="eight">8</string>
-    <string name="nine">9</string>
-    <string name="zero">0</string>
+    <string name="us_to_eu">Units</string>
+    <string name="one" translatable="false">1</string>
+    <string name="two" translatable="false">2</string>
+    <string name="three" translatable="false">3</string>
+    <string name="four" translatable="false">4</string>
+    <string name="five" translatable="false">5</string>
+    <string name="six" translatable="false">6</string>
+    <string name="seven" translatable="false">7</string>
+    <string name="eight" translatable="false">8</string>
+    <string name="nine" translatable="false">9</string>
+    <string name="zero" translatable="false">0</string>
     <string name="come">,</string>
     <string name="delete">del</string>
 
     <!-- Measurments -->
-    <string name="temperatur">Temperatur</string>
-    <string name="length">Längd</string>
-    <string name="weight">Vikt</string>
+    <string name="temperatur">Temperature</string>
+    <string name="length">Length</string>
+    <string name="weight">Weight</string>
     <string name="area">Area</string>
-    <string name="speed">Hastighet</string>
-    <string name="baking">Bakning</string>
+    <string name="speed">Speed</string>
+    <string name="baking">Baking</string>
 
     <!-- length -->
     <string name="meter">meter</string>
     <string name="centimeter">centimeter</string>
     <string name="decimeter">decimeter</string>
-    <string name="foot">fot</string>
-    <string name="inch">tum</string>
+    <string name="foot">foot</string>
+    <string name="inch">inch</string>
     <string name="kilometer">kilometer</string>
-    <string name="mile">mil (us)</string>
+    <string name="mile">mile (us)</string>
     <string name="yard">yard</string>
 
     <!-- temperature -->
@@ -41,28 +41,27 @@
     <!-- weigth -->
     <string name="gram">gram</string>
     <string name="kilogram">kilogram</string>
-    <string name="pound">pund</string>
-    <string name="ounce">unc</string>
+    <string name="pound">pound</string>
+    <string name="ounce">ounce</string>
     <string name="ton">ton</string>
 
 
     <!-- area -->
-    <string name="squaremeter">kvadrat meter</string>
-    <string name="squarekilometer">kvadrat kilometer</string>
-    <string name="squarecentimeter">kvadrat centimeter</string>
-    <string name="squaremile">kvadratmil (us)</string>
-    <string name="squarefoot">kvadrat fot</string>
-    <string name="squareinch">kvadrat tum</string>
-    <string name="squareyard">kvadrat yard</string>
-    <string name="acre">tunnland</string>
-    <string name="hectare">hektar</string>
+    <string name="squarekilometer">square kilometer</string>
+    <string name="squarecentimeter">square centimeter</string>
+    <string name="squaremile">square mile (us)</string>
+    <string name="squarefoot">square foot</string>
+    <string name="squareinch">square inch</string>
+    <string name="squareyard">square yard</string>
+    <string name="acre">acre</string>
+    <string name="hectare">hectare</string>
 
     <!-- speed -->
-    <string name="meterpersecond">meter per sekund</string>
-    <string name="footpersecond">fot per sekund (us)</string>
-    <string name="milesperhour">mil i timmen (us)</string>
-    <string name="kilometerperhour">kilometer i timmen</string>
-    <string name="knot">knop</string>
+    <string name="meterpersecond">meter per second</string>
+    <string name="footpersecond">foot per second (us)</string>
+    <string name="milesperhour">miles per hour (us)</string>
+    <string name="kilometerperhour">kilometer per hour</string>
+    <string name="knot">knot</string>
 
     <!--Settings-->
     <string name="title_activity_settings">Settings</string>
@@ -70,6 +69,7 @@
     <string name="about">About</string>
     <string name="created">Created by</string>
     <string name="version">Version nr</string>
+    <string name="squaremeter">square meter</string>
 
     <!-- baking -->
     <!--
