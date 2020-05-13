@@ -58,10 +58,7 @@ public class ExchangeRequester extends AsyncTask<String, Void, RequestResult> {
     @Override
     public void onPostExecute(RequestResult resultObject) {
         super.onPostExecute(resultObject);
-
-        if (resultObject.getList() != null){
-            callingClass.gotRequestedList(resultObject);
-        }
+        callingClass.gotRequestedList(resultObject);
     }
 
     private String getJson(String[] strings){

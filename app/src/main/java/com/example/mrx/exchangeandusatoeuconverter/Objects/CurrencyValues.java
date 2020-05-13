@@ -15,6 +15,10 @@ public class CurrencyValues {
         return hashMapValues.containsKey(key);
     }
 
+    public boolean isEmpty(){
+        return hashMapValues.isEmpty();
+    }
+
     public double getValueFor(String key){
         return hashMapValues.get(key);
     }

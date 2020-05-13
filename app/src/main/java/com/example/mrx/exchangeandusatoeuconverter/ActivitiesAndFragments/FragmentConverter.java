@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.MyDecimalFormat;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.ToastExtension;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ICallbackSpinnerItemSelected;
 import com.example.mrx.exchangeandusatoeuconverter.Listeners.SpinnerItemSelectedListener;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.Cell;
@@ -213,7 +214,7 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     }
 
     private void toastNoCurrencyValue(String currencyKey) {
-        Toast.makeText(getContext(), "No value for " + currencyKey, Toast.LENGTH_SHORT).show();
+        ToastExtension.showToast(getContext(), getString(R.string.noCurrencyValue) + currencyKey, Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -239,6 +240,8 @@ public class FragmentConverter extends Fragment implements View.OnFocusChangeLis
     }
 
     private void updateEditTextCurrencys(Cell cell) {
+        if (currencyValues.isEmpty())
+            return;
         if (cell != focusedCell)
             calculateCurrencyForCell(cell, calculateUsdForFocusedCell());
         else

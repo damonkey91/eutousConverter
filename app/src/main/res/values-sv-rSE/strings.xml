@@ -47,4 +47,6 @@
     <string name="ton">ton</string>
     <string name="title_activity_settings">Inställningar</string>
     <string name="thanks_to">Tack till</string>
+    <string name="noCurrencyValue">"Inget värde för "</string>
+    <string name="failedFetchingCurrencies">Kunde inte hämta valutakurser från internet!</string>
 </resources>

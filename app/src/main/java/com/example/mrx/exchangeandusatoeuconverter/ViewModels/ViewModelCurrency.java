@@ -1,15 +1,19 @@
 package com.example.mrx.exchangeandusatoeuconverter.ViewModels;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.Constants;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.ExchangeRequester;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.GetDrawable;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.JsonConverter;
 import com.example.mrx.exchangeandusatoeuconverter.Helpers.SharedPreferenceHelper;
+import com.example.mrx.exchangeandusatoeuconverter.Helpers.ToastExtension;
 import com.example.mrx.exchangeandusatoeuconverter.Interfaces.ExchangeRequesterInterface;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyName;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.CurrencyValues;
 import com.example.mrx.exchangeandusatoeuconverter.Objects.RequestResult;
+import com.example.mrx.exchangeandusatoeuconverter.R;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -32,6 +36,7 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
         super(application);
         currencyNameList = new MutableLiveData<>();
         currencyValueList = new MutableLiveData<>();
+        currencyValueList.setValue(new CurrencyValues(new HashMap<String, Double>()));
         sharedPreferenceHelper = new SharedPreferenceHelper(application);
         choosenCurrencys = setupChosenCurrencys();
     }
@@ -97,6 +102,8 @@ public class ViewModelCurrency extends AndroidViewModel implements ExchangeReque
                     break;
             }
         }
+        else
+            ToastExtension.showToast(getApplication(), GetDrawable.getStringResource(R.string.failedFetchingCurrencies), Toast.LENGTH_LONG);
     }
 
     private boolean timeMoreThenSevenDays(String time){
